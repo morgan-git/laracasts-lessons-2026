@@ -1,14 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us</title>
-</head>
-<body>
+<x-layout title="Contact Us">
     <h1>Contact Us</h1>
-    <div>
-    <a href="/">Return Home</a>
-    </div>
-</body>
-</html>
+</x-layout>
