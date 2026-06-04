@@ -1,14 +1,27 @@
-<x-layout title="Home">
+<x-layout title="Form">
 
-   <form action="">
+   <form method="POST" action="">
+     @csrf
       <div class="col-span-full">
-          <label for="about" class="block text-sm/6 font-medium text-white">About</label>
+          <label for="about" class="block text-sm/6 font-medium text-white">Skoopski Potatoes</label>
           <div class="mt-2">
-            <textarea id="about" name="about" rows="3" class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"></textarea>
+            <textarea id="about" name="idea" rows="3" class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"></textarea>
           </div>
-          <p class="mt-3 text-sm/6 text-gray-400">Write a few sentences about yourself.</p>
+          <p class="mt-3 text-sm/6 text-gray-400">Have a recipe for Skoopski potatoes Mustache?</p>
         </div>
-
+ <div class="mt-6 flex items-center gap-x-6">
+    <button type="submit" class="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Save</button>
+  </div>
 
    </form>
+@if (count($ideas))
+   <div class="mt-6">
+    <h2 class="font-bold">Your Ideas</h2>
+    <ul class="mt-6">
+        @foreach($ideas AS $idea)
+            <li class="text-sm">{{ $idea }}</li>
+        @endforeach
+        </ul>
+   </div>
+@endif
 </x-layout>
