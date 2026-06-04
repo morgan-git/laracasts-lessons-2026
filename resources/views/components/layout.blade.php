@@ -1,5 +1,5 @@
 @props([
-    'title' => "Skoopsi Potatoes!"
+    'title' => "Skoopski Potatoes!"
 ])
 
 <!DOCTYPE html>
