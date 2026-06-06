@@ -4,16 +4,36 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\Idea;
 
-Route::get("/", function(){
-    //$ideas = session()->get('ideas') ?? [];
-    $ideas = Idea::where('state', "=" , 'complete', NULL)->get();
+Route::get("/ideas", function(){
+    $ideas = Idea::all();
    //dd($ideas);
-    return view('ideas', [
+    return view('ideas.index', [
         'ideas' => $ideas,
     ]);
 });
 
-Route::post("/", function(){
+//show
+Route::get("/ideas/{idea}", function(Idea $idea){
+
+    return view('ideas.show', ['idea' => $idea]);
+});
+
+Route::get("/ideas/{idea}/edit", function(Idea $idea){
+    return view('ideas.edit', ['idea' => $idea]);
+});
+
+//update
+Route::patch("/ideas/{idea}", function(Idea $idea){
+
+    $idea->update([
+        "description" => request('idea'),
+    ]); //needs validation
+
+    return redirect("/ideas/$idea->id");
+});
+
+//store
+Route::post("/ideas", function(){
     $idea = request()->idea; //needs validation
 
     Idea::create([
@@ -21,24 +41,27 @@ Route::post("/", function(){
         'state' => "pending",
     ]);
 
-    return redirect('/');
+    return redirect('/ideas');
 
 
     //dd("Jabreakit Jubawdit");
     //request()->all
 });
 
+//destroy
+Route::delete("/ideas/{idea}", function(Idea $idea){
+
+    $idea->delete();
+    return redirect('/ideas');
+
+});
+
 Route::view('/larry', 'larry', [
     "greeting" => "Hey mustache, what's up?",
     "person" => request('person') ?? 'Larry',
     "tasks" => ["Dadood Frumcheers", "Count Ravioli", "Disfatt Bidge", "Diddy Doodat"],
-]);
+])
+;
 Route::view('/contact', 'contact');
 Route::view('/about', 'about');
 
-//Temporary for the scope of the demo lesson
-Route::get('/delete-ideas', function(){
-    session()->forget("ideas");
-    return redirect('/');
-
-});
