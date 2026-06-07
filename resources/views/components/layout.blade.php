@@ -19,6 +19,7 @@
 <body class="bg-gray-700 p-6 max-w-xl mx-auto">
     <nav>
         <a href="/">Home</a>
+         <a href="/ideas">Ideas</a>
         <a href="/about">About Us</a>
         <a href="/contact">Contact</a>
     </nav>
