@@ -3,27 +3,29 @@
 ])
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="synthwave">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{  $title }}</title>
+    <title>{{ $title }}</title>
+
+    <!-- Tailwind CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-    <style>
-        nav > a {
-            color: black;
-        }
-    </style>
+    <!-- DaisyUI CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
 </head>
-<body class="bg-gray-700 p-6 max-w-xl mx-auto">
-    <nav>
-        <a href="/">Home</a>
-         <a href="/ideas">Ideas</a>
-        <a href="/about">About Us</a>
-        <a href="/contact">Contact</a>
-    </nav>
 
-    {{ $slot }}
+<body>
+
+<x-nav/>
+<!-- MAIN CONTENT -->
+<main class="max-w-3xl mx-auto p-6 mt-6">
+    <div class="prose prose-invert">
+        {{ $slot }}
+    </div>
+</main>
+
 </body>
 </html>

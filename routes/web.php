@@ -9,7 +9,7 @@ require __DIR__.'/ideas.php';
 
 
 Route::view('/', 'index', [
-    "greeting" => "Hey mustache, what's up?",
+    "greeting" => "Don't stop letting people not help",
     "person" => request('person') ?? 'Larry',
     "tasks" => ["Dadood Frumcheers", "Count Ravioli", "Disfatt Bidge", "Diddy Doodat"],
 ]);

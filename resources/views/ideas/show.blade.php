@@ -1,6 +1,6 @@
 <x-layout>
 
-     <div class="mt-6">
+     <div class="card bg-neutral p-6">
         <h2 class="font-bold">Your Stupid Idea</h2>
         <ul class="mt-6">
             <li class="text-sm">
@@ -13,12 +13,7 @@
                 @endif
             </li>
             <li class="text-sm mt-6">
-
-                <a href="/ideas/{{ $idea->id }}/edit"
-                 class="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
-                    Edit
-                </a>
-
+                <a href="/ideas/{{ $idea->id }}/edit" class="btn">Edit</a>
             </li>
             <li class="text-sm mt-6">
                 <form method="POST" action="/ideas/{{$idea->id}}">

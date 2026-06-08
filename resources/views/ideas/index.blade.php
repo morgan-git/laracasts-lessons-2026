@@ -1,14 +1,16 @@
 <x-layout>
 
 
-    <div class="mt-6">
+    <div class="mt-6 ">
     <h2 class="font-bold">Your Ideas</h2>
-        <ul class="mt-6">
+        <ul class="mt-6 grid grid-cols-2 gap-x-20 gap-y-4">
 
             @if (isset($ideas) && $ideas->count())
 
                 @foreach($ideas AS $idea)
-                   <a href="/ideas/{{$idea->id}}/edit" alt="edit"><li class="text-sm">{{ $idea->description }}</li></a>
+                <x-idea-card href="/ideas/{{ $idea->id }}">{{ $idea->description }}</x-idea-card>
+
+
                 @endforeach
 
             @elseif (isset($idea) && $idea->count())
