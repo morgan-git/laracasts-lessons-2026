@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\IdeaController;
+use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\SessionsController;
 use Illuminate\Support\Facades\Route;
-use App\Models\Idea;
 
 require __DIR__.'/ideas.php';
 
@@ -15,6 +15,23 @@ Route::view('/', 'index', [
 ]);
 
 
+Route::middleware('guest')->group(function(){
+
+    Route::get("/register", [RegisteredUserController::class, 'create']);
+    Route::post("/register", [RegisteredUserController::class, 'store']);
+
+    Route::get('/login', [SessionsController::class, 'create'])->name('login');
+    Route::post('/login', [SessionsController::class, 'store']);
+});
+
+
+Route::delete('/logout', [SessionsController::class, 'destroy'])->middleware('auth');
+
 Route::view('/contact', 'contact');
 Route::view('/about', 'about');
+
+Route::get("/admin", function(){
+    return "Private admin area demo";
+})->can('view-admin');
+
 

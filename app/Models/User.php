@@ -9,7 +9,11 @@ use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Collection;
+/**
+ * @property-read Collection<int,Idea>$ideas
+ */
 #[Fillable(['name', 'email', 'password'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
@@ -29,4 +33,15 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function ideas(): hasMany
+    {
+        return $this->hasMany(Idea::class);
+    }
+
+    public function isAdmin(): bool
+    {
+        return in_array($this->id, [1]);
+    }
+
 }

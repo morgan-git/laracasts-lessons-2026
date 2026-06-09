@@ -28,13 +28,13 @@
                         <li><a href="/ideas/">List</a></li>
                     </ul>
                 </li>
-
+                @can('view-admin') <li><a href="/admin">Admin</a></li> @endcan
                 <li><a href="/about">About</a></li>
                 <li><a href="/contact">Contact</a></li>
             </ul>
         </div>
 
-        <a class="btn btn-ghost text-xl">AFTERtheSYNTAX</a>
+     <a href="/" alt="AFTERtheSYNTAX"><img src="/images/ats-test-logo-2.png" class="h-10"/></a>
     </div>
 
     <!-- DESKTOP MENU -->
@@ -51,13 +51,24 @@
                     </ul>
                 </details>
             </li>
-
+           @can('view-admin') <li><a href="/admin">Admin</a></li> @endcan
             <li><a href="/about">About</a></li>
             <li><a href="/contact">Contact</a></li>
         </ul>
     </div>
 
-    <div class="navbar-end">
-        <a class="btn btn-primary">Braised Beef Button</a>
+    <div class="navbar-end space-x-2">
+
+        @auth
+            <form method="POST" action="/logout">
+            @csrf
+            @method('DELETE')
+            <button class="btn btn-ghost">Log Out</button>
+            </form>
+        @else
+                    <a class="btn btn-login" href="/login">Log In</a>
+                    <a class="btn btn-primary" href="/register">Register</a>
+
+        @endauth
     </div>
 </div>

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Idea;
-use Illuminate\Http\Request;
 use App\Http\Requests\IdeaRequest;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
+
 class IdeaController extends Controller
 {
     /**
@@ -12,11 +14,11 @@ class IdeaController extends Controller
      */
     public function index()
     {
-         $ideas = Idea::all();
+        // $ideas = Idea::all(); //saving for a little so i can rememebr it while learning
         //dd($ideas);
 
         return view('ideas.index', [
-                    'ideas' => $ideas,
+                    'ideas' =>Auth::user()->ideas,
         ]);
     }
 
@@ -33,13 +35,10 @@ class IdeaController extends Controller
      */
     public function store(IdeaRequest $request)
     {
-        $idea = request()->description;
-
-        Idea::create([
-            'description' => $idea,
+        Auth::user()->ideas()->create([
+            'description' => request()->description,
             'state' => "pending",
         ]);
-
 
         return redirect('/ideas');
 
@@ -50,7 +49,10 @@ class IdeaController extends Controller
      */
     public function show(Idea $idea)
     {
-         return view('ideas.show', ['idea' => $idea]);
+        Gate::authorize('update', $idea);
+        //Auth::user()_>can('update', $idea);
+
+        return view('ideas.show', ['idea' => $idea]);
     }
 
     /**
@@ -58,6 +60,8 @@ class IdeaController extends Controller
      */
     public function edit(Idea $idea)
     {
+        Gate::authorize('update', $idea);
+
          return view('ideas.edit', ['idea' => $idea]);
     }
 
@@ -66,6 +70,8 @@ class IdeaController extends Controller
      */
     public function update(IdeaRequest $request, Idea $idea)
     {
+        Gate::authorize('update', $idea);
+
         $idea->update([
         "description" => request('idea'),
         ]);
@@ -78,6 +84,8 @@ class IdeaController extends Controller
      */
     public function destroy(Idea $idea)
     {
+        Gate::authorize('update', $idea);
+
          $idea->delete();
         return redirect('/ideas');
     }
