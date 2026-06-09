@@ -30,3 +30,8 @@ Route::delete('/logout', [SessionsController::class, 'destroy'])->middleware('au
 Route::view('/contact', 'contact');
 Route::view('/about', 'about');
 
+Route::get("/admin", function(){
+    return "Private admin area demo";
+})->can('view-admin');
+
+

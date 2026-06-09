@@ -28,13 +28,13 @@
                         <li><a href="/ideas/">List</a></li>
                     </ul>
                 </li>
-
+                @can('view-admin') <li><a href="/admin">Admin</a></li> @endcan
                 <li><a href="/about">About</a></li>
                 <li><a href="/contact">Contact</a></li>
             </ul>
         </div>
 
-        <a class="btn btn-ghost text-xl">AFTERtheSYNTAX</a>
+     <a href="/" alt="AFTERtheSYNTAX"><img src="/images/ats-test-logo-2.png" class="h-10"/></a>
     </div>
 
     <!-- DESKTOP MENU -->
@@ -51,7 +51,7 @@
                     </ul>
                 </details>
             </li>
-
+           @can('view-admin') <li><a href="/admin">Admin</a></li> @endcan
             <li><a href="/about">About</a></li>
             <li><a href="/contact">Contact</a></li>
         </ul>

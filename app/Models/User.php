@@ -38,4 +38,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Idea::class);
     }
+
+    public function isAdmin(): bool
+    {
+        return in_array($this->id, [1]);
+    }
+
 }
