@@ -57,7 +57,18 @@
         </ul>
     </div>
 
-    <div class="navbar-end">
-        <a class="btn btn-primary">Braised Beef Button</a>
+    <div class="navbar-end space-x-2">
+
+        @auth
+            <form method="POST" action="/logout">
+            @csrf
+            @method('DELETE')
+            <button class="btn btn-ghost">Log Out</button>
+            </form>
+        @else
+                    <a class="btn btn-login" href="/login">Log In</a>
+                    <a class="btn btn-primary" href="/register">Register</a>
+
+        @endauth
     </div>
 </div>
