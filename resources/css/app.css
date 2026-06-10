@@ -1,16 +1,132 @@
 @import 'tailwindcss';
-
+@import "./darkwave.css";
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
 
 @plugin "daisyui" {
-    themes: black
+    themes: darkwave
 }
 
+@plugin "daisyui/theme" {
+    name: "darkwave";
+    default: true;
+    prefersdark: true;
+    color-scheme: dark;
+
+    /* Backgrounds */
+    --color-base-100: #0d0b14;
+    --color-base-200: #171320;
+    --color-base-300: #221b2d;
+    --color-base-content: #e8e1f2;
+
+    /* Brand colors */
+    --color-primary: #8b5cf6;
+    --color-primary-content: #f5f3ff;
+
+    --color-secondary: #b86cff;
+    --color-secondary-content: #f8f3ff;
+
+    --color-accent: #4fd1c5;
+    --color-accent-content: #081413;
+
+    /* Utility */
+    --color-neutral: #191522;
+    --color-neutral-content: #ddd6fe;
+
+    --color-info: #60a5fa;
+    --color-success: #34d399;
+    --color-warning: #fbbf24;
+    --color-error: #f87171;
+
+    /* Rounded corners / sizing */
+    --radius-box: 0.75rem;
+    --radius-btn: 0.5rem;
+    --radius-badge: 1rem;
+
+    /* Optional: slightly sharper look */
+    --border: 1px;
+}
 
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
-        --color-primary: #512965; /** enables things like text-primary **/
+       /** --color-primary: #512965;  enables things like text-primary **/
+}
+
+/* Atmosphere */
+body {
+    background: linear-gradient(
+        180deg,
+        #0d0b14 0%,
+        #120f1b 35%,
+        #0d0b14 100%
+    );
+
+    color: #e8e1f2;
+}
+
+/* Navbar */
+.navbar {
+    background: rgba(20, 16, 30, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(139, 92, 246, 0.15);
+}
+
+/* Cards */
+.card,
+.fieldset {
+    background: #181421 !important;
+    border: 1px solid rgba(139, 92, 246, 0.15);
+    box-shadow:
+        0 0 25px rgba(0, 0, 0, 0.35),
+        0 0 4px rgba(139, 92, 246, 0.08);
+}
+
+/* Inputs */
+.input,
+.textarea,
+.select {
+    background: #100d17 !important;
+    border-color: #34284d !important;
+    color: #e8e1f2 !important;
+}
+
+.input:focus,
+.textarea:focus {
+    outline: none;
+    border-color: #8b5cf6 !important;
+    box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+}
+
+/* Buttons */
+.btn-primary {
+    background: #7c3aed !important;
+    border-color: #7c3aed !important;
+    color: white !important;
+}
+
+.btn-primary:hover {
+    background: #8b5cf6 !important;
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.25);
+}
+
+/* Links */
+a {
+    transition: color 0.15s ease;
+}
+
+a:hover {
+    color: #b794f4;
+}
+
+/* Prose text */
+.prose {
+    color: #d9d2e9;
+}
+
+.prose h1,
+.prose h2,
+.prose h3 {
+    color: #f3effc;
 }
