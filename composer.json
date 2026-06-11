@@ -20,7 +20,9 @@
         "laravel/pint": "^1.27",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
-        "phpunit/phpunit": "^12.5.12"
+        "pestphp/pest": "*",
+        "pestphp/pest-plugin-browser": "*",
+        "pestphp/pest-plugin-laravel": "*"
     },
     "autoload": {
         "psr-4": {
@@ -69,7 +71,10 @@
         ],
         "pre-package-uninstall": [
             "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
-        ]
+        ],
+        "test:browser": [
+        "vendor/bin/pest tests/Browser"
+    ]
     },
     "extra": {
         "laravel": {
