@@ -1,19 +1,32 @@
 #!/bin/bash
 
-#echo "Starting Laravel..."
-#php artisan serve &
+# 1. Check and start Queue Worker
+if pgrep -f "queue:work" > /dev/null; then
+    echo "Queue Worker is already running. Skipping."
+else
+    echo "Starting Queue Worker..."
+    php artisan queue:work > /dev/null 2>&1 &
+fi
 
-echo "Starting Queue Worker..."
-php artisan queue:work > /dev/null 2>&1 &
+# 2. Check and start Vite
+if pgrep -f "vite" > /dev/null; then
+    echo "Vite is already running. Skipping."
+else
+    echo "Starting Vite..."
+    npm run dev > /dev/null 2>&1 &
+fi
 
-echo "Starting Vite..."
-npm run dev > /dev/null 2>&1 &
+# 3. Check and start MailPit
+if pgrep "mailpit" > /dev/null; then
+    echo "MailPit is already running. Skipping."
+else
+    echo "Starting MailPit..."
+    mailpit > /dev/null 2>&1 &
+fi
 
-echo "Starting MailPit..."
-mailpit > /dev/null 2>&1 &
-#wait
 disown -a
 
+#pgrep -fl "vite|mailpit|queue:work"
 
 
 #TODO adding for future use for prod version of this dev script create a systemservce?
