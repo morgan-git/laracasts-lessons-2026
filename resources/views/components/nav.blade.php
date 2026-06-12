@@ -1,5 +1,5 @@
 <!-- NAVBAR -->
-<div class="navbar shadow-sm">
+<div class="navbar shadow-sm relative z-50">
     <div class="navbar-start">
 
         <!-- MOBILE DROPDOWN -->
@@ -18,12 +18,12 @@
             </div>
 
             <ul tabindex="-1"
-                class="menu menu-sm dropdown-content rounded-box z-10 mt-3 w-52 p-2 shadow">
+                class="menu menu-sm dropdown-content rounded-box z-100 mt-3 w-52 p-2 shadow bg-base-100">
                 <li><a href="/">Home</a></li>
 
                 <li>
                     <a href="/ideas">Ideas</a>
-                    <ul class="p-2">
+                    <ul class="p-2 z-500">
                         <li><a href="/ideas/create">Create</a></li>
                         <li><a href="/ideas/">List</a></li>
                     </ul>

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Database\Factories\Idea\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -40,5 +41,17 @@ class Idea extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+     // Generates the ->pending() method
+    public function scopePending(Builder $query): void
+    {
+        $query->where('state', IdeaState::PENDING);
+    }
+
+    // Generates a dynamic ->ofState($state) method
+    public function scopeOfState(Builder $query, IdeaState $state): void
+    {
+        $query->where('state', $state);
     }
 }
