@@ -7,6 +7,8 @@ use App\Http\Requests\IdeaRequest;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\IdeaPublished;
+use App\Enums\IdeaState;
+use Illuminate\Validation\Rules\Enum;
 
 class IdeaController extends Controller
 {
@@ -15,11 +17,27 @@ class IdeaController extends Controller
      */
     public function index()
     {
-        // $ideas = Idea::all(); //saving for a little so i can rememebr it while learning
-        //dd($ideas);
+        //$ideas = Idea::all(); //saving for a little so i can rememebr it while learning
+        //Auth::user()->ideas
+
+        $request = request();
+
+        $request->validate([
+                'state' => ['nullable', new Enum(IdeaState::class)],
+]       );
+
+        $state = IdeaState::tryFrom($request->state);
+
+        $ideas = Auth::user()->ideas()
+            ->when($state, function ($query, $state) {
+                $query->where('state', $state);
+            })
+            ->get();
 
         return view('ideas.index', [
-                    'ideas' =>Auth::user()->ideas,
+            'ideas' =>  $ideas,
+            'state' => $state ?? null,
+            'states'=> IdeaState::cases()
         ]);
     }
 
@@ -56,7 +74,10 @@ class IdeaController extends Controller
         Gate::authorize('update', $idea);
         //Auth::user()_>can('update', $idea);
 
-        return view('ideas.show', ['idea' => $idea]);
+        return view('ideas.show', [
+            'idea' => $idea,
+            'states'=> IdeaState::cases()
+        ]);
     }
 
     /**
@@ -66,7 +87,10 @@ class IdeaController extends Controller
     {
         Gate::authorize('update', $idea);
 
-         return view('ideas.edit', ['idea' => $idea]);
+         return view('ideas.edit', [
+            'idea' => $idea,
+            'states'=> IdeaState::cases()
+        ]);
     }
 
     /**
@@ -76,8 +100,13 @@ class IdeaController extends Controller
     {
         Gate::authorize('update', $idea);
 
+        $request->validate([
+                'state' => ['nullable', new Enum(IdeaState::class)],
+]       );
+
         $idea->update([
-        "description" => request('idea'),
+        "description" => request('description'),
+        "state" => IdeaState::tryFrom($request->state)->value ?? IdeaState::PENDING->value,
         ]);
 
         return redirect("/ideas/$idea->id");

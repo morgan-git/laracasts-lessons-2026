@@ -1,8 +1,6 @@
 @import 'tailwindcss';
-@import "./darkwave.css";
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
-
 
 @plugin "daisyui" {
     themes: darkwave
@@ -14,119 +12,147 @@
     prefersdark: true;
     color-scheme: dark;
 
-    /* Backgrounds */
-    --color-base-100: #0d0b14;
-    --color-base-200: #171320;
-    --color-base-300: #221b2d;
-    --color-base-content: #e8e1f2;
+    /* Background Structure: Slate-Purple Base Layers */
+    --color-base-100: #0a080f;        /* Deep midnight obsidian void */
+    --color-base-200: #120e1a;        /* Soft slate-purple card containers */
+    --color-base-300: #1b1526;        /* Slightly elevated dropdown/input backings */
+    --color-base-content: #e2daeb;    /* Crisp, clean metallic silver-white typography */
 
-    /* Brand colors */
-    --color-primary: #8b5cf6;
-    --color-primary-content: #f5f3ff;
+    /* Brand Identities: Rich Muted Purples & Steels (NO Pink/Aqua) */
+    --color-primary: #7c4dff;          /* Vibrant electric violet indigo */
+    --color-primary-content: #ffffff;
 
-    --color-secondary: #b86cff;
-    --color-secondary-content: #f8f3ff;
+    --color-secondary: #433954;        /* Dark, brooding smoked amethyst */
+    --color-secondary-content: #cbd5e1;
 
-    --color-accent: #4fd1c5;
-    --color-accent-content: #081413;
+    --color-accent: #64748b;           /* Clean gunmetal armor casing steel */
+    --color-accent-content: #ffffff;
 
-    /* Utility */
-    --color-neutral: #191522;
-    --color-neutral-content: #ddd6fe;
+    /* Utilities */
+    --color-neutral: #15101f;
+    --color-neutral-content: #c0b3d6;
 
     --color-info: #60a5fa;
     --color-success: #34d399;
     --color-warning: #fbbf24;
     --color-error: #f87171;
 
-    /* Rounded corners / sizing */
-    --radius-box: 0.75rem;
-    --radius-btn: 0.5rem;
+    /* Sizing Geometry: Elegant, smooth layout profiles */
+    --radius-box: 0.75rem;             /* Premium fluid layout frames */
+    --radius-btn: 0.5rem;              /* Rounded tactile buttons */
     --radius-badge: 1rem;
 
-    /* Optional: slightly sharper look */
     --border: 1px;
 }
 
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
-       /** --color-primary: #512965;  enables things like text-primary **/
 }
 
-/* Atmosphere */
+/* Atmosphere - Deep, Atmospheric Nebula Gradient & Ambient Grid Texture Overlay */
 body {
-    background: linear-gradient(
-        180deg,
-        #0d0b14 0%,
-        #120f1b 35%,
-        #0d0b14 100%
-    );
-
-    color: #e8e1f2;
+    background-color: var(--color-base-100);
+    background-image:
+        /* Soft, glowing upper left purple flare */
+        radial-gradient(circle at 15% 15%, rgba(124, 77, 255, 0.06) 0%, transparent 45%),
+        /* Deep linear falloff that prevents a flat screen look */
+        linear-gradient(180deg, #0a080f 0%, #140f21 40%, #0a080f 100%);
+    color: var(--color-base-content);
+    min-height: 100vh;
 }
 
-/* Navbar */
+/* Navbar - High-end Frosted Cyber-Glass Panel */
 .navbar {
-    background: rgba(20, 16, 30, 0.85);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(139, 92, 246, 0.15);
+    background: rgba(10, 8, 15, 0.8) !important;
+    backdrop-filter: blur(12px) saturate(140%); /* Rich, vibrant background melt */
+    border-bottom: 1px solid rgba(124, 77, 255, 0.15) !important; /* Elegant glowing horizon line */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4) !important;
 }
 
-/* Cards */
+/* Cards & Panels - Deeply layered equipment brackets with purple backlit drop halos */
 .card,
 .fieldset {
-    background: #181421 !important;
-    border: 1px solid rgba(139, 92, 246, 0.15);
+    background: var(--color-base-200) !important;
+    border: 1px solid rgba(124, 77, 255, 0.12) !important; /* Fine-grain neon frame tracing */
     box-shadow:
-        0 0 25px rgba(0, 0, 0, 0.35),
-        0 0 4px rgba(139, 92, 246, 0.08);
+        0 15px 35px rgba(0, 0, 0, 0.5),
+        0 0 12px rgba(124, 77, 255, 0.05),
+        inset 0 1px 1px rgba(255, 255, 255, 0.03) !important; /* Gentle internal gloss highlight */
 }
 
-/* Inputs */
+/* Premium Form Elements & Dropdown Panels */
 .input,
 .textarea,
 .select {
-    background: #100d17 !important;
-    border-color: #34284d !important;
-    color: #e8e1f2 !important;
+    background: var(--color-base-300) !important;
+    border: 1px solid rgba(124, 77, 255, 0.18) !important;
+    color: var(--color-base-content) !important;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
+/* Dynamic Active Input Tracking Frame */
 .input:focus,
-.textarea:focus {
-    outline: none;
-    border-color: #8b5cf6 !important;
-    box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+.textarea:focus,
+.select:focus {
+    outline: none !important;
+    border-color: var(--color-primary) !important;
+    box-shadow:
+        0 0 0 1px var(--color-primary),
+        0 0 14px rgba(124, 77, 255, 0.3) !important; /* Electric violet glowing focus aura */
 }
 
-/* Buttons */
+/* Buttons - Polished Core Branding Triggers */
 .btn-primary {
-    background: #7c3aed !important;
-    border-color: #7c3aed !important;
-    color: white !important;
+    background: var(--color-primary) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: var(--color-primary-content) !important;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    box-shadow: 0 4px 12px rgba(124, 77, 255, 0.2) !important;
+    transition: all 0.2s ease !important;
 }
 
 .btn-primary:hover {
-    background: #8b5cf6 !important;
-    box-shadow: 0 0 10px rgba(139, 92, 246, 0.25);
+    background: #9266ff !important; /* Soft, luminous illumination morph */
+    border-color: #9266ff !important;
+    box-shadow: 0 0 18px rgba(124, 77, 255, 0.45) !important;
 }
 
-/* Links */
+/* Secondary Actions / Toggle Controllers */
+.btn-secondary {
+    background: var(--color-secondary) !important;
+    border: 1px solid rgba(124, 77, 255, 0.1) !important;
+    color: var(--color-secondary-content) !important;
+}
+
+.btn-secondary:hover {
+    background: #524766 !important;
+    color: #ffffff !important;
+}
+
+/* Clean Navigation Hyperlinks */
 a {
     transition: color 0.15s ease;
 }
 
 a:hover {
-    color: #b794f4;
+    color: var(--color-primary);
 }
 
-/* Prose text */
+/* Document Typography Content Styles */
 .prose {
     color: #d9d2e9;
 }
 
-.prose h1,
-.prose h2,
-.prose h3 {
-    color: #f3effc;
+.prose h1, .prose h2, .prose h3 {
+    color: #ffffff;
+    font-weight: 700;
+}
+
+/* Cybernetic Wordmark Shadow Engraving */
+.logo-wordmark {
+    filter: drop-shadow(0 0 8px rgba(124, 77, 255, 0.25));
+    color: #ffffff;
 }
