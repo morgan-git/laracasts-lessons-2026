@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Global IDE type-hinting wrapper for Pest closures.
+ *
+ * @mixin \Tests\TestCase
+ * @property \App\Models\User $user
+ * @property \App\Models\Idea $idea
+ */
+
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

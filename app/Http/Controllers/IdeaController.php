@@ -56,7 +56,7 @@ class IdeaController extends Controller
     {
         $idea = Auth::user()->ideas()->create([
             'description' => request()->description,
-            'state' => "pending",
+            'state' => IdeaState::PENDING,
         ]);
 
         //notify user
