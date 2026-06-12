@@ -54,4 +54,4 @@ jobs:
         run: npm run build
 
       - name: Run Tests
-        run: pcomposer test:browser
+        run: composer test:browser
