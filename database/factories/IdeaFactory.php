@@ -19,6 +19,7 @@ class IdeaFactory extends Factory
     {
          return [
             'description' => fake()->sentence(25),
+            'state' => \App\Enums\IdeaState::PENDING, // Sets the default
         ];
     }
 }
