@@ -4,6 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Database\Factories\Idea\Factory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
+use App\Enums\IdeaState;
+
 
 /**
  * @property int $id
@@ -24,10 +29,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Idea extends Model
 {
     protected $guarded = [];
-    //TODO add IdeaState enum pending,complete, in porgress to verify it always has an accepted value
-    protected $attributes = [
-      'state' => 'pending'
+
+    protected $casts = [
+        'state' => IdeaState::class,
     ];
+
+     /** @use HasFactory<UserFactory> */
+    use HasFactory, Notifiable;
 
     public function user(): BelongsTo
     {
