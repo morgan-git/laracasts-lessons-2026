@@ -4,6 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Database\Factories\Idea\Factory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
+
+
 
 /**
  * @property int $id
@@ -28,6 +33,9 @@ class Idea extends Model
     protected $attributes = [
       'state' => 'pending'
     ];
+
+     /** @use HasFactory<UserFactory> */
+    use HasFactory, Notifiable;
 
     public function user(): BelongsTo
     {
