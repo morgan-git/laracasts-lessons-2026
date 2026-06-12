@@ -1,41 +1,37 @@
 <?php
+
 use App\Models\User;
 use App\Models\Idea;
 
+beforeEach(function () {
+    /** @var Tests\TestCase $this */
+
+    $this->user = User::factory()->create();
+    $this->actingAs($this->user);
+
+    $this->idea = Idea::factory()->for($this->user)->create();
+});
 
 it('shows all ideas', function () {
-
-    $user = User::factory()->create();
-    $this->actingAs($user);
-    $idea = Idea::factory()->for($user)->create();
-    $user->ideas()->create([
-        'description' => $idea->description,
-    ]);
-
-    visit('/ideas')->assertSee($idea->description);
+    visit('/ideas')
+        ->assertSee($this->idea->description);
 });
 
 it('shows a single idea', function () {
-    $user = User::factory()->create();
-    $this->actingAs($user);
-    $idea = Idea::factory()->for($user)->create();
-    $user->ideas()->create([
-        'description' => $idea->description,
-    ]);
-
-    visit('/ideas/' . $idea->id)->assertSee($idea->description);
+    visit('/ideas/' . $this->idea->id)
+        ->assertSee($this->idea->description);
 });
 
 it('shows an edit form to update an idea', function () {
+    visit('/ideas/' . $this->idea->id . '/edit')
+        ->assertSee('update');
+});
 
-    $user = User::factory()->create();
-    $this->actingAs($user);
-    $idea = Idea::factory()->for($user)->create();
-    $user->ideas()->create([
-        'description' => $idea->description,
-    ]);
+it('doesn\'t show an edit form to update an idea thats not the viewing user', function () {
+    // Create a second separate user and sign them in to override the beforeEach user
+    $user2 = User::factory()->create();
+    $this->actingAs($user2);
 
-    visit('/ideas/' . $idea->id . '/edit')->assertSee('update');
-
-
+    visit('/ideas/' . $this->idea->id . '/edit')
+        ->assertSee('404');
 });
