@@ -24,6 +24,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Idea extends Model
 {
     protected $guarded = [];
+    //TODO add IdeaState enum pending,complete, in porgress to verify it always has an accepted value
+    protected $attributes = [
+      'state' => 'pending'
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
