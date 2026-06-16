@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Collection;
+
 /**
  * @property-read Collection<int,Idea>$ideas
  */
@@ -26,6 +29,7 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
+    #[\Override]
     protected function casts(): array
     {
         return [
@@ -34,14 +38,13 @@ class User extends Authenticatable
         ];
     }
 
-    public function ideas(): hasMany
+    public function ideas(): HasMany
     {
         return $this->hasMany(Idea::class);
     }
 
     public function isAdmin(): bool
     {
-        return in_array($this->id, [1]);
+        return $this->id == 1;
     }
-
 }

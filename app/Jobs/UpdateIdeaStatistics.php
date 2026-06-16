@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Jobs;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -22,6 +24,6 @@ class UpdateIdeaStatistics implements ShouldQueue
      */
     public function handle(): void
     {
-        logger("The UpdateIdeaStatistics job is being processed");
+        logger('The UpdateIdeaStatistics job is being processed');
     }
 }

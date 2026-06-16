@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\IdeaState;
 use App\Models\Idea;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -17,9 +18,9 @@ class IdeaFactory extends Factory
      */
     public function definition(): array
     {
-         return [
+        return [
             'description' => fake()->sentence(25),
-            'state' => \App\Enums\IdeaState::PENDING, // Sets the default
+            'state' => IdeaState::PENDING, // Sets the default
         ];
     }
 }

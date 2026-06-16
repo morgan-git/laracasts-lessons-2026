@@ -1,7 +1,9 @@
 <?php
 
-it('returns a successful response', function () {
-   visit('/')->assertSee('stop');
+declare(strict_types=1);
 
-   //->debug() add this to see the window popup and see what it sees
+it('returns a successful response', function (): void {
+    visit('/')->assertSee('stop');
+
+    // ->debug() add this to see the window popup and see what it sees
 });

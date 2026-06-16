@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -12,7 +14,7 @@ class IdeaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true; //for scope of this demo. no users yet to authorize
+        return true; // for scope of this demo. no users yet to authorize
     }
 
     /**
@@ -23,13 +25,15 @@ class IdeaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'description' => ['required',"min:10"],
+            'description' => ['required', 'min:10'],
         ];
     }
+
+    #[\Override]
     public function messages(): array
     {
         return [
-          "description.required" => "Description is required sir",
+            'description.required' => 'Description is required sir',
         ];
     }
 }

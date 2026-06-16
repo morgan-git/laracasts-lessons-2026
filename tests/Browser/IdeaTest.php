@@ -1,9 +1,9 @@
 <?php
-use App\Models\User;
+
 use App\Models\Idea;
+use App\Models\User;
 
-
-it('shows all ideas', function () {
+it('shows all ideas', function (): void {
 
     $user = User::factory()->create();
     $this->actingAs($user);
@@ -15,7 +15,7 @@ it('shows all ideas', function () {
     visit('/ideas')->assertSee($idea->description);
 });
 
-it('shows a single idea', function () {
+it('shows a single idea', function (): void {
     $user = User::factory()->create();
     $this->actingAs($user);
     $idea = Idea::factory()->for($user)->create();
@@ -23,10 +23,10 @@ it('shows a single idea', function () {
         'description' => $idea->description,
     ]);
 
-    visit('/ideas/' . $idea->id)->assertSee($idea->description);
+    visit('/ideas/'.$idea->id)->assertSee($idea->description);
 });
 
-it('shows an edit form to update an idea', function () {
+it('shows an edit form to update an idea', function (): void {
 
     $user = User::factory()->create();
     $this->actingAs($user);
@@ -35,7 +35,6 @@ it('shows an edit form to update an idea', function () {
         'description' => $idea->description,
     ]);
 
-    visit('/ideas/' . $idea->id . '/edit')->assertSee('update');
-
+    visit('/ideas/'.$idea->id.'/edit')->assertSee('update');
 
 });

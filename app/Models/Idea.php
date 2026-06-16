@@ -1,22 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Database\Factories\Idea\Factory;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Notifications\Notifiable;
 use App\Enums\IdeaState;
-
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
  * @property string $description
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property string $state
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Idea newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Idea newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Idea query()
@@ -25,6 +27,7 @@ use App\Enums\IdeaState;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Idea whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Idea whereState($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Idea whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class Idea extends Model
@@ -35,7 +38,7 @@ class Idea extends Model
         'state' => IdeaState::class,
     ];
 
-     /** @use HasFactory<UserFactory> */
+    /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
     public function user(): BelongsTo
@@ -43,7 +46,7 @@ class Idea extends Model
         return $this->belongsTo(User::class);
     }
 
-     // Generates the ->pending() method
+    // Generates the ->pending() method
     public function scopePending(Builder $query): void
     {
         $query->where('state', IdeaState::PENDING);

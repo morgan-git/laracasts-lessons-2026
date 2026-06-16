@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Notifications;
 
+use App\Models\Idea;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use App\Models\Idea;
 
 class IdeaPublished extends Notification implements ShouldQueue
 {
@@ -35,10 +37,11 @@ class IdeaPublished extends Notification implements ShouldQueue
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $url = url('/ideas/' . $this->idea->id);
-        //TODO: Customize email template
+        $url = url('/ideas/'.$this->idea->id);
+
+        // TODO: Customize email template
         return (new MailMessage)
-            ->greeting("Hello")
+            ->greeting('Hello')
             ->line('You published a new idea!')
             ->action('Read it!', $url)
             ->line($this->idea->description)

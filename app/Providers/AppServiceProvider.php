@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
-use Illuminate\Auth\Access\Response;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Gate;
 use App\Models\User;
-
+use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
      */
+    #[\Override]
     public function register(): void
     {
         //
@@ -23,8 +25,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define('view-admin', function(User $user){
-            return $user->isAdmin() ? Response::allow() : Response::denyAsNotFound();
-        });
+        Gate::define('view-admin', fn (User $user) => $user->isAdmin() ? Response::allow() : Response::denyAsNotFound());
     }
 }

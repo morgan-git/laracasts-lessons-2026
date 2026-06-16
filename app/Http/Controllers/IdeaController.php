@@ -26,7 +26,8 @@ class IdeaController extends Controller
                 'state' => ['nullable', new Enum(IdeaState::class)],
 ]       );
 
-        $state = IdeaState::tryFrom($request->state);
+
+        $state = IdeaState::tryFrom($request->state)?->value;
 
         $ideas = Auth::user()->ideas()
             ->when($state, function ($query, $state) {
@@ -106,7 +107,7 @@ class IdeaController extends Controller
 
         $idea->update([
         "description" => request('description'),
-        "state" => IdeaState::tryFrom($request->state)->value ?? IdeaState::PENDING->value,
+        "state" => IdeaState::tryFrom($request->state)?->value ?? IdeaState::PENDING->value,
         ]);
 
         return redirect("/ideas/$idea->id");
