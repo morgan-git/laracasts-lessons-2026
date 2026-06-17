@@ -2,15 +2,14 @@
 
 namespace Database\Factories;
 
-use App\Enums\IdeaState;
+use App\Models\Step;
 use App\Models\Idea;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Idea>
+ * @extends Factory<Step>
  */
-class IdeaFactory extends Factory
+class StepFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -20,10 +19,9 @@ class IdeaFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory(),
-            'title' => fake()->sentence(),
-            'description' => fake()->paragraph,
-            'links' => [fake()->url()],
+            'idea_id' => Idea::factory(),
+            'description' => fake()->sentence(),
+            'completed' => false,
         ];
     }
 }

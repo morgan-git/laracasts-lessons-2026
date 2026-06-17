@@ -14,8 +14,12 @@ return new class extends Migration
     {
         Schema::create('ideas', function (Blueprint $table) {
             $table->id();
+          //$table->string('title');
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
-            $table->text('description');
+            $table->text('description')->nullable();
+          //$table->json('links')->default('[]');
+          //$table->string('state')->default('pending');
+          //$table->string('image_path')->nullable();
             $table->timestamps();
         });
     }

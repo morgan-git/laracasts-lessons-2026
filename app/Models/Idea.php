@@ -6,12 +6,14 @@ namespace App\Models;
 
 use App\Enums\IdeaState;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
-
+use App\Models\Step;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * @property int $id
  * @property string $description
@@ -36,6 +38,13 @@ class Idea extends Model
 
     protected $casts = [
         'state' => IdeaState::class,
+        'links' => AsArrayObject::class,
+    ];
+
+    //initial attributes set for the model
+    protected $attributes = [
+        'state' => IdeaState::PENDING,
+        'links' => '[]',
     ];
 
     /** @use HasFactory<UserFactory> */
@@ -44,6 +53,12 @@ class Idea extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+
+    public function steps(): HasMany
+    {
+        return $this->hasMany(Step::class);
     }
 
     // Generates the ->pending() method

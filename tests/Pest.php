@@ -18,11 +18,11 @@ use Tests\TestCase;
 
 pest()->extend(TestCase::class)
     ->use(RefreshDatabase::class)
-    ->in('Browser');
+    ->in('Browser', 'Unit');
 
-pest()->extend(TestCase::class)
+//pest()->extend(TestCase::class)
  // ->use(RefreshDatabase::class)
-    ->in('Feature');
+  //  ->in('Feature');
 /*
 |--------------------------------------------------------------------------
 | Expectations
