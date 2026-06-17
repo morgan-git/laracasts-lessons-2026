@@ -5,7 +5,7 @@
             <li class="text-sm">
 
                 @if (isset($idea->description))
-                    {{ $idea->description }} - {{ ucfirst(str_replace('-', ' ', $idea->state->value)) }}
+                    {{ $idea->description }} - {{ $idea->state->label() }}
 
                 @else
                     No Idea found

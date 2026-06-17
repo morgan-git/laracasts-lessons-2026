@@ -12,7 +12,7 @@ enum IdeaState: string
 
     public function label(): string
     {
-        return match($this){
+        return match ($this) {
             self::PENDING => 'Pending',
             self::IN_PROGRESS => 'In Progress',
             self::COMPLETE => 'Complete',

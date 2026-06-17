@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('ideas', function (Blueprint $table) {
-            //$table->foreignIdFor(App\Models\Step::class)->nullable()->constrained()->nullOnDelete();
+            // $table->foreignIdFor(App\Models\Step::class)->nullable()->constrained()->nullOnDelete();
         });
     }
 

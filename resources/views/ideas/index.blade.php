@@ -9,14 +9,14 @@
 
             @foreach ($states as $stateOption)
                 <option value="{{ $stateOption->value }}" @selected(request('state') === $stateOption->value)>
-                    {{ ucfirst(str_replace('-', ' ', $stateOption->value)) }}
+                    {{ $stateOption->label() }}
                 </option>
             @endforeach
         </select>
     </form>
     <div class="mt-6 ">
 
-    <h2 class="font-bold">Your @if ( isset($state)) {{ ucfirst($state->value) }} @endif Ideas</h2>
+    <h2 class="font-bold">Your @if ( isset($state)) {{ $state->label() }} @endif Ideas</h2>
         <ul class="mt-6 grid grid-cols-2 gap-x-20 gap-y-4">
 
             @if (isset($ideas) && $ideas->count())

@@ -10,10 +10,10 @@ use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
-use App\Models\Step;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+
 /**
  * @property int $id
  * @property string $description
@@ -41,7 +41,7 @@ class Idea extends Model
         'links' => AsArrayObject::class,
     ];
 
-    //initial attributes set for the model
+    // initial attributes set for the model
     protected $attributes = [
         'state' => IdeaState::PENDING,
         'links' => '[]',
@@ -54,7 +54,6 @@ class Idea extends Model
     {
         return $this->belongsTo(User::class);
     }
-
 
     public function steps(): HasMany
     {
