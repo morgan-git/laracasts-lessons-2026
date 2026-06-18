@@ -41,12 +41,14 @@ class SessionsController extends Controller
         if (Auth::attempt($validated)) {
             $request->session()->regenerate();
 
-            return redirect('/ideas');
+            return redirect()->intended('/ideas')->with('success', 'Logged in successfully!');
         }
 
-        return back()->withErrors([
-            'email' => 'Invalid credentials',
-        ]);
+        return back()
+            ->withErrors([
+                'email' => 'Invalid credentials',
+            ])
+            ->withInput();
     }
 
     /**

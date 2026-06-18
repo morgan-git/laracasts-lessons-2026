@@ -34,7 +34,7 @@
             </ul>
         </div>
 
-     <a href="/" alt="AFTERtheSYNTAX"></>AFTERtheSYNTAX</a>
+     <a href="/" alt="AFTERtheSYNTAX">{{ "</>" }}AFTERtheSYNTAX</a>
     </div>
 
     <!-- DESKTOP MENU -->

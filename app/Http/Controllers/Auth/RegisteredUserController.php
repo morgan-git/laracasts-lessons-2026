@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
 class RegisteredUserController extends Controller
@@ -22,9 +23,9 @@ class RegisteredUserController extends Controller
     {
         // validate request
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', Password::default()],
+            'name' => ['required', 'string', 'max:255', 'min:3'],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users', 'email')],
+            'password' => ['required', 'min:8', 'max:255', Password::default()],
         ]);
 
         // create user in db
@@ -38,6 +39,6 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         // redirect to home
-        return redirect('/ideas');
+        return redirect('/ideas')->with('success', 'Account created successfully!');
     }
 }

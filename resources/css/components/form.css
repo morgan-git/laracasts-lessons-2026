@@ -1,0 +1,112 @@
+/* Premium Form Elements & Dropdown Panels */
+.input,
+.textarea,
+.select {
+    background: var(--color-base-300) !important;
+    border: 1px solid rgba(124, 77, 255, 0.18) !important;
+    color: var(--color-base-content) !important;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Dynamic Active Input Tracking Frame */
+.input:focus,
+.textarea:focus,
+.select:focus {
+    outline: none !important;
+    border-color: var(--color-primary) !important;
+    box-shadow:
+        0 0 0 1px var(--color-primary),
+        0 0 14px rgba(124, 77, 255, 0.3) !important; /* Electric violet glowing focus aura */
+}
+
+label {
+    color: var(--color-foreground);
+    margin: 0.5rem;
+}
+
+.input {
+    border-radius: var(--radius-md);
+    height: calc(var(--spacing) * 10);
+    width: 100%;
+    border-width: 1px;
+    border-color: var(--color-border);
+    padding: calc(var(--spacing) * 2) calc(var(--spacing) * 3);
+    background-color: var(--color-card);
+    color: var(--color-foreground);
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    font-size: var(--text-base);
+
+}
+
+.input::placeholder {
+    color: var(--color-muted-foreground);
+}
+
+.input:focus-visible {
+    outline-color: var(--color-primary);
+    outline-width: 2px;
+    outline-style: solid;
+    outline-offset: 2px;
+    outline: 0;
+    box-shadow:
+    0 0 0 1px var(--color-primary),
+    0 0 14px rgba(124, 77, 255, 0.3) !important; /* Electric violet glowing focus aura */
+}
+
+@media (min-width: var(--breakpoint-md)) {
+    .input {
+        font-size: var(--text-sm);
+    }
+}
+
+.textarea {
+    border-radius: var(--radius-md);
+    width: 100%;
+    height: calc(var(--spacing) * 40);
+    border-width: 1px;
+    border-color: var(--color-border);
+    padding: calc(var(--spacing) * 2) calc(var(--spacing) * 3);
+    background-color: var(--color-card);
+    color: var(--color-foreground);
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    font-size: var(--text-base);
+}
+
+.textarea::placeholder {
+    color: var(--color-muted-foreground);
+}
+
+.textarea:focus-visible {
+    outline-color: var(--color-primary);
+    outline-width: 2px;
+    outline-style: solid;
+    outline-offset: 2px;
+    outline: 0;
+    box-shadow:
+    0 0 0 1px var(--color-primary),
+    0 0 14px rgba(124, 77, 255, 0.3) !important; /* Electric violet glowing focus aura */
+}
+
+@media (min-width: var(--breakpoint-md)) {
+    .textarea {
+        font-size: var(--text-sm);
+    }
+}
+
+.label {
+    color: var(--color-foreground);
+    display: block;
+    font-size: var(--text-sm);
+}
+
+input[type-file] {
+    display: block;
+    width: 100%;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: var(--color-foreground);
+    padding: 0;
+}

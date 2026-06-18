@@ -28,7 +28,10 @@ class IdeaController extends Controller
             'state' => ['nullable', new Enum(IdeaState::class)],
         ]);
 
-        $state = IdeaState::tryFrom($request->state);
+        $state = $request->state
+                ? IdeaState::tryFrom($request->state)
+                : null;
+
         $ideas = Auth::user()->ideas()
             ->when($state, function ($query, $state) {
                 $query->where('state', $state);

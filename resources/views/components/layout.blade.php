@@ -11,11 +11,11 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="text-primary">
+<body class="bg-background text-foreground">
 
 <x-nav/>
 <!-- MAIN CONTENT -->
-<main class="max-w-3xl mx-auto p-6 mt-6">
+<main class="max-w-3xl mx-auto p-6 mt-6 pb-10 px-6">
     <div class="prose prose-invert">
         {{ $slot }}
     </div>

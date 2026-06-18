@@ -5,11 +5,11 @@
             <legend class="fieldset-legend">Log In</legend>
 
             <label class="label" for="email">Email</label>
-            <input type="email" class="input" placeholder="Your Email" name="email" required />
+            <input value="{{ old('email') }}" type="email" class="input" placeholder="Your Email" name="email" required />
             <x-forms.error name="email" />
 
             <label class="label">Password</label>
-            <input type="password" class="input" placeholder="Your Password" name="password" required />
+            <input value="{{ old('password') }}" type="password" class="input" placeholder="Your Password" name="password" required />
             <x-forms.error name="password" />
 
             <button class="btn btn-neutral mt-4">Log In </button>
