@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Auth\RegisteredUserController;
 
 it('registers a user', function (): void {
     // When I visit the registration page
@@ -9,12 +11,17 @@ it('registers a user', function (): void {
         ->fill('email', 'Tanka@afterthesyntax.com')
         ->fill('password', 'ShaxxBodySpray123')
         ->press('@register-button') // which register button? beware. @ indicates data-test property
-        ->assertPathIs('/ideas');
+        ->assertPathIs(RegisteredUserController::REDIRECT_PATH);
 
     // expect(User::count())->toBe(1); //generic check
-    expect(User::where('email', 'Tanka@afterthesyntax.com')->exists())->toBe(true);
 
     $this->assertAuthenticated();
+
+   // expect(User::where('email', 'Tanka@afterthesyntax.com')->exists())->toBe(true);
+    expect(Auth::user())->toMatchArray([
+        'name' => 'Tanka Jahari',
+        'email' => 'Tanka@afterthesyntax.com',
+    ]);
 
 });
 
@@ -32,5 +39,19 @@ it('fails to register with a duplicate email', function (): void {
         ->press('@register-button') // which register button? beware. @ indicates data-test property
         ->assertPathIs('/register')
         ->assertSee('email has already been taken');
+
+});
+
+it('logs in a user', function (): void {
+    $user = User::factory()->create([
+        'password' => 'ShaxxBodySpray123'
+    ]);
+
+    visit('/login')
+        ->fill('email', $user->email)
+        ->fill('password', 'ShaxxBodySpray123')
+        ->click('@login-button');
+
+    $this->assertAuthenticated();
 
 });

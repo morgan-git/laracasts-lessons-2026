@@ -12,7 +12,7 @@
             <input value="{{ old('password') }}" type="password" class="input" placeholder="Your Password" name="password" required />
             <x-forms.error name="password" />
 
-            <button class="btn btn-neutral mt-4">Log In </button>
+            <button class="btn btn-neutral mt-4" data-test="login-button">Log In </button>
         </fieldset>
 
 </form>
