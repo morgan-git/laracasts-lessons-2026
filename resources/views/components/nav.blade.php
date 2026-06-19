@@ -34,7 +34,7 @@
             </ul>
         </div>
 
-     <a href="/" alt="AFTERtheSYNTAX"><img src="images/ATS4.png" class="height:20px" /></a>
+     <a href="/" alt="AFTERtheSYNTAX"><img src="images/ATS4.png" width="75" /></a>
     </div>
 
     <!-- DESKTOP MENU -->
@@ -63,7 +63,7 @@
             <form method="POST" action="/logout">
             @csrf
             @method('DELETE')
-            <button class="btn btn-ghost">Log Out</button>
+            <button class="btn btn-ghost" data-test="logout-button">Log Out</button>
             </form>
         @else
                     <a class="btn btn-login" href="/login">Log In</a>

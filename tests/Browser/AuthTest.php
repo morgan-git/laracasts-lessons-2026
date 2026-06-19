@@ -55,3 +55,16 @@ it('logs in a user', function (): void {
     $this->assertAuthenticated();
 
 });
+
+it('logs out a user', function (): void {
+    $user = User::factory()->create([
+        'password' => 'ShaxxBodySpray123'
+    ]);
+
+    $this->actingAs($user);
+    $this->assertAuthenticated();
+
+    visit('/')->click('@logout-button');
+    $this->assertGuest();
+
+});
