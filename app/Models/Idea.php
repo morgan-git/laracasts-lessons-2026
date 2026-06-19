@@ -43,7 +43,7 @@ class Idea extends Model
 
     // initial attributes set for the model
     protected $attributes = [
-        'state' => IdeaState::PENDING,
+        'state' => IdeaState::PENDING->value,
         'links' => '[]',
     ];
 
