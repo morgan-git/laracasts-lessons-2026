@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\IdeaState;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 
 /**
  * @property int $id
@@ -50,6 +50,22 @@ class Idea extends Model
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
+    public static function getStateCounts(User $user): Collection
+    {
+        $statusCounts = $user->ideas()->selectRaw('state, count(*) as count')->groupBy('state')->pluck('count', 'state');
+        $statusCounts['all'] = $statusCounts->sum();
+
+        /**
+        collect(IdeaState::cases())
+        ->mapWithKeys(fn($state) => [
+             $state->value => $statusCounts->get($state->value, 0),
+        ])
+             ->put('all', Auth::user()->ideas()->count());
+
+         **/
+        return $statusCounts;
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -58,17 +74,5 @@ class Idea extends Model
     public function steps(): HasMany
     {
         return $this->hasMany(Step::class);
-    }
-
-    // Generates the ->pending() method
-    public function scopePending(Builder $query): void
-    {
-        $query->where('state', IdeaState::PENDING);
-    }
-
-    // Generates a dynamic ->ofState($state) method
-    public function scopeOfState(Builder $query, IdeaState $state): void
-    {
-        $query->where('state', $state);
     }
 }

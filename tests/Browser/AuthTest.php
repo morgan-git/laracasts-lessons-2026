@@ -1,8 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Auth\RegisteredUserController;
 
 it('registers a user', function (): void {
     // When I visit the registration page
@@ -17,7 +17,7 @@ it('registers a user', function (): void {
 
     $this->assertAuthenticated();
 
-   // expect(User::where('email', 'Tanka@afterthesyntax.com')->exists())->toBe(true);
+    // expect(User::where('email', 'Tanka@afterthesyntax.com')->exists())->toBe(true);
     expect(Auth::user())->toMatchArray([
         'name' => 'Tanka Jahari',
         'email' => 'Tanka@afterthesyntax.com',
@@ -44,7 +44,7 @@ it('fails to register with a duplicate email', function (): void {
 
 it('logs in a user', function (): void {
     $user = User::factory()->create([
-        'password' => 'ShaxxBodySpray123'
+        'password' => 'ShaxxBodySpray123',
     ]);
 
     visit('/login')
@@ -58,7 +58,7 @@ it('logs in a user', function (): void {
 
 it('logs out a user', function (): void {
     $user = User::factory()->create([
-        'password' => 'ShaxxBodySpray123'
+        'password' => 'ShaxxBodySpray123',
     ]);
 
     $this->actingAs($user);

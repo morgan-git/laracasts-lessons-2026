@@ -34,7 +34,7 @@
             </ul>
         </div>
 
-     <a href="/" alt="AFTERtheSYNTAX"><img src="images/ATS4.png" width="75" /></a>
+     <a href="/" alt="AFTERtheSYNTAX"><img src="/images/after_the_syntax_logo.png" width="200" /></a>
     </div>
 
     <!-- DESKTOP MENU -->

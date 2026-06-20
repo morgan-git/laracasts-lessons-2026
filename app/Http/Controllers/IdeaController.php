@@ -8,6 +8,7 @@ use App\Enums\IdeaState;
 use App\Http\Requests\IdeaRequest;
 use App\Models\Idea;
 use App\Notifications\IdeaPublished;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rules\Enum;
@@ -17,31 +18,18 @@ class IdeaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // $ideas = Idea::all(); //saving for a little so i can rememebr it while learning
-        // Auth::user()->ideas
+        $state = in_array($request->state, IdeaState::values()) ? $request->state : null;
 
-        $request = request();
-
-        $request->validate([
-            'state' => ['nullable', new Enum(IdeaState::class)],
-        ]);
-
-        $state = $request->state
-                ? IdeaState::tryFrom($request->state)
-                : null;
-
-        $ideas = Auth::user()->ideas()
-            ->when($state, function ($query, $state) {
-                $query->where('state', $state);
-            })
+        $ideas = Auth::user()
+            ->ideas()
+            ->when($state, fn ($query, $state) => $query->where('state', $state))
             ->get();
 
         return view('ideas.index', [
             'ideas' => $ideas,
-            'state' => $state ?? null,
-            'states' => IdeaState::cases(),
+            'statusCounts' => Idea::getStateCounts(Auth::user()),
         ]);
     }
 
@@ -111,6 +99,7 @@ class IdeaController extends Controller
         $idea->update([
             'description' => request('description'),
             'state' => IdeaState::tryFrom($request->state)?->value ?? IdeaState::PENDING->value,
+            'title' => request('title'),
         ]);
 
         return redirect("/ideas/$idea->id");

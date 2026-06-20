@@ -18,4 +18,9 @@ enum IdeaState: string
             self::COMPLETE => 'Complete',
         };
     }
+
+    public static function values(): array
+    {
+        return array_map(fn (IdeaState $state) => $state->value, self::cases());
+    }
 }

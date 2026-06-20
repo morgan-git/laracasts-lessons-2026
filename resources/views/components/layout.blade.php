@@ -14,18 +14,28 @@
 <body class="bg-background text-foreground">
 
 <x-nav/>
+@if ($errors->any())
+    <div class="mb-4 rounded border border-red-500 bg-red-50 p-3 text-red-700">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 <!-- MAIN CONTENT -->
 <main class="max-w-3xl mx-auto mt-6 pb-10 px-6">
     <div class="prose prose-invert">
         {{ $slot }}
     </div>
 </main>
-
-<div x-data="{ greeting: 'Hello, World!', show: true }" class="max-w-md mx-auto mt-10">
+{{--
+<div x-data="{ greeting: 'Hello, World!', show: false }" class="max-w-md mx-auto mt-10">
     <p x-show="show" x-text="greeting"></p>
     <input type="text" x-model="greeting" class="input input-bordered w-full max-w-xs" placeholder="Type a greeting...">
     <button @click="show = !show" class="btn btn-primary mt-2">Set Greeting</button>
 </div>
+--}}
 
 @session('success')
     <div

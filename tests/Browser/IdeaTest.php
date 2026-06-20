@@ -2,10 +2,10 @@
 
 use App\Models\Idea;
 use App\Models\User;
+use Tests\TestCase;
 
 beforeEach(function () {
-    /** @var Tests\TestCase $this */
-
+    /** @var TestCase $this */
     $this->user = User::factory()->create();
     $this->actingAs($this->user);
 
@@ -18,12 +18,12 @@ it('shows all ideas', function () {
 });
 
 it('shows a single idea', function () {
-    visit('/ideas/' . $this->idea->id)
+    visit('/ideas/'.$this->idea->id)
         ->assertSee($this->idea->description);
 });
 
 it('shows an edit form to update an idea', function () {
-    visit('/ideas/' . $this->idea->id . '/edit')
+    visit('/ideas/'.$this->idea->id.'/edit')
         ->assertSee('update');
 });
 
@@ -32,6 +32,6 @@ it('doesn\'t show an edit form to update an idea thats not the viewing user', fu
     $user2 = User::factory()->create();
     $this->actingAs($user2);
 
-    visit('/ideas/' . $this->idea->id . '/edit')
+    visit('/ideas/'.$this->idea->id.'/edit')
         ->assertSee('404');
 });

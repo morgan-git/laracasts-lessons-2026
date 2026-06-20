@@ -5,7 +5,7 @@
      @method('PATCH')
 
       <div class="col-span-full">
-          <label for="about" class="block text-sm/6 font-medium text-white">Edit your idea</label>
+          <label for="about" class="block text-sm/6 font-medium text-white">Edit your stupid idea</label>
           <div class="mt-2">
                 <label for="stateFilter" class="sr-only">Filter by State: {</label>
 
@@ -19,6 +19,13 @@
                 </select>
             <x-forms.error name="state" />
             </div>
+             <div class="mt-2">
+
+            <label for="title" class="sr-only">Title:</label>
+
+           <x-forms.field fname="title" ftype="text" label="Title" value="{{ $idea->title }}" required />
+            <x-forms.error name="title" />
+        </div>
         <div class="mt-2">
 
             <label for="idea" class="sr-only">Idea:</label>

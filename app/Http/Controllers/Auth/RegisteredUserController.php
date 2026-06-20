@@ -15,6 +15,7 @@ use Illuminate\Validation\Rules\Password;
 class RegisteredUserController extends Controller
 {
     public const REDIRECT_PATH = '/ideas';
+
     public function create()
     {
         return view('auth.register');
@@ -40,6 +41,6 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         // redirect to home
-        return redirect(SELF::REDIRECT_PATH)->with('success', 'Account created successfully!');
+        return redirect(self::REDIRECT_PATH)->with('success', 'Account created successfully!');
     }
 }
