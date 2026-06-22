@@ -3,6 +3,14 @@
         <header class="py-8 md:py-12">
             <h1 class="text-3xl font-bold tracking-tight">Ideas</h1>
             <p class="text-sm text-muted-foreground mt-2">Make a plan</p>
+{{-- -window.addEventListener('open-modal', event => alert(event.detail)); --}}
+           <button
+                x-data
+                @click="$dispatch('open-modal', 'create-idea')"
+                class="border-2 border-neutral-content/10 rounded-lg p-4 mt-10 space-y-3 cursor-pointer h-32 w-full text-left" >
+                <p class="">What's the idea?
+                </p>
+            </button>
         </header>
         <div>
             <a href="/ideas" class="btn {{ !request('state')  ? 'btn-secondary' : 'btn-ghost'}}">All  <span class="text-xs pl-1">({{ $statusCounts['all'] ?? 0 }})</span></a>
@@ -25,13 +33,11 @@
                     @endforelse
 
             </div>
-
-
         </div>
+
+        <!-- modal -->
+        <x-modal name='create-idea' title="New Idea" >
+            <p>Slot</p>
+        </x-modal> />
     </div>
-
-
-        <div class="text-sm mt-6">
-                <a class="btn-primary p-2" href="/ideas/create" date-test="create-idea-btn">Create Idea</a>
-            </div>
 </x-layout>

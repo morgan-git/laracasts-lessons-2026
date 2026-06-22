@@ -7,7 +7,7 @@
 
         </div>
         <div class="mt-5 line-clamp-3">{{ $idea->description }}</div>
-        <div class="text-muted-foreground text-sm mt-3 right">{{ $idea->created_at->diffForHumans() }}</div>
+        <div class="text-muted-foreground text-sm mt-3">{{ $idea->created_at->diffForHumans() }}</div>
 
     </div>
 </a>
