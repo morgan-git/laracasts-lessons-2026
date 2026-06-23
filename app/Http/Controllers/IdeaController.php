@@ -20,11 +20,10 @@ class IdeaController extends Controller
      */
     public function index(Request $request)
     {
-        $state = in_array($request->state, IdeaState::values()) ? $request->state : null;
-
         $ideas = Auth::user()
             ->ideas()
-            ->when($state, fn ($query, $stateValue) => $query->where('state', $stateValue))
+            ->when(in_array($request->state, IdeaState::values()), fn ($query, $stateValue) => $query->where('state', $request->state))
+            ->latest()
             ->get();
 
         return view('ideas.index', [
@@ -46,15 +45,14 @@ class IdeaController extends Controller
      */
     public function store(IdeaRequest $request)
     {
-        $idea = Auth::user()->ideas()->create([
-            'description' => request()->description,
-            'state' => IdeaState::PENDING,
-        ]);
+        $idea = Auth::user()->ideas()->create(
+            $request->validated()
+        );
 
         // notify user
         Auth::user()->notify(new IdeaPublished($idea));
 
-        return redirect('/ideas');
+        return to_route('idea.index')->with('success', 'Idea Created :)');
 
     }
 

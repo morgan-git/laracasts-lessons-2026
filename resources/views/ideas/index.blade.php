@@ -37,7 +37,7 @@
 
         <!-- modal -->
         <x-modal name='create-idea' title="New Idea" >
-            <p>Slot</p>
-        </x-modal> />
+          <x-ideas.create/>
+        </x-modal>
     </div>
 </x-layout>
