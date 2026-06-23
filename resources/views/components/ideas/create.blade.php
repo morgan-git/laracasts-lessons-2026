@@ -15,6 +15,7 @@
                         @click="state = @js($state->value)"
                         type="button"
                         class="btn flex-1 h-10"
+                        data-test="idea-status-btn-{{ $state->value }}"
                         :class="state === @js($state->value) ? 'btn-secondary' : ''">
                             {{ $state->label() }}
                         </button>
@@ -32,7 +33,7 @@
         </div>
         <div class="flex justify-end gap-x-5">
             <button type="button" class="btn" @click="$dispatch('close-modal')">Forget</button>
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" class="btn btn-primary" data-test="save-idea-button">Save</button>
         </div>
 
    </form>

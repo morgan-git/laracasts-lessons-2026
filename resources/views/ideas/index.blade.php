@@ -7,6 +7,7 @@
            <button
                 x-data
                 @click="$dispatch('open-modal', 'create-idea')"
+                data-test="create-idea-button"
                 class="border-2 border-neutral-content/10 rounded-lg p-4 mt-10 space-y-3 cursor-pointer h-32 w-full text-left" >
                 <p class="">What's the idea?
                 </p>

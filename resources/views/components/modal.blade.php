@@ -2,6 +2,7 @@
  <div
             x-data="{ show: false, name: @js($name) }"
             x-show="show"
+            x-init="@if($errors->any()) show = true @endif"
             @open-modal.window="if($event.detail === name) show = true"
             @close-modal="show = false"
             @keydown.escape.window="show = false"

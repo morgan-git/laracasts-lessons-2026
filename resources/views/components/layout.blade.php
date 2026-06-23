@@ -14,7 +14,7 @@
 <body class="bg-background text-foreground">
 
 <x-nav/>
-@if ($errors->any())
+@if (0 && $errors->any())
     <div class="mb-4 rounded border border-red-500 bg-red-50 p-3 text-red-700">
         <ul>
             @foreach ($errors->all() as $error)
