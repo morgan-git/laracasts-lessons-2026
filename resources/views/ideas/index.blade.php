@@ -3,7 +3,6 @@
         <header class="py-8 md:py-12">
             <h1 class="text-3xl font-bold tracking-tight">Ideas</h1>
             <p class="text-sm text-muted-foreground mt-2">Make a plan</p>
-{{-- -window.addEventListener('open-modal', event => alert(event.detail)); --}}
            <button
                 x-data
                 @click="$dispatch('open-modal', 'create-idea')"

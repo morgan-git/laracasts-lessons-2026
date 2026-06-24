@@ -37,6 +37,7 @@
     --color-accent: #64748b;           /* Clean gunmetal armor casing steel */
     --color-accent-content: #ffffff;
 
+    --color-muted-foreground:#8f859b ;
     /* Utilities */
     --color-neutral: #15101f;
     --color-neutral-content: #c0b3d6;

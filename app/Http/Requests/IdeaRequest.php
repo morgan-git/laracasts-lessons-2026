@@ -30,6 +30,8 @@ class IdeaRequest extends FormRequest
             'title' => ['required', 'min:5', 'string'],
             'description' => ['nullable', 'string'],
             'state' => ['required', Rule::enum(IdeaState::class)],
+            'links' => ['nullable', 'array'],
+            'links.*' => ['url', 'max:255'],
         ];
     }
 
