@@ -10,6 +10,7 @@
    }"
    method="POST"
    action="{{ route('idea.store') }}"
+    enctype="multipart/form-data"
    >
      @csrf
 
@@ -38,7 +39,11 @@
             id="description" name="description" rows="3"
             class="textarea w-full @error('description')textarea-error @enderror">{{ old('description') }}</textarea>
             <x-forms.error name="description" />
-            ////
+            <div class="space-y-2">
+                <label for="image" class="label">Featured Image</label>
+                <input type="file" name="image" accept="image/*" class="file-input file-input-bordered w-full">
+                <x-forms.error name="image" />
+            </div>
             <div>
                 <fieldset class="space-y-3">
                     <legend class="label">Actionable Steps</legend>
@@ -56,7 +61,7 @@
                         </button>
                         </div>
                     </template>
-                <div class="flex gap-x-2 items-center">
+                    <div class="flex gap-x-2 items-center">
                     <input
                         x-model="newStep"
                         id="new-step"
@@ -79,19 +84,6 @@
                {{-- - <pre x-text="JSON.stringify(steps)"></pre> --}}
                 </fieldset>
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-            /////
             <div>
                 <fieldset class="space-y-3">
                     <legend class="label">Links</legend>

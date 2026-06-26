@@ -46,12 +46,19 @@ class IdeaController extends Controller
     public function store(IdeaRequest $request)
     {
         $idea = Auth::user()->ideas()->create(
-            $request->safe()->except('steps')
+            $request->safe()->except(['steps', 'image'])
         );
 
         $idea->steps()->createMany(
             collect($request->steps)->map(fn ($step) => ['description' => $step])
         );
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->image->store('ideas', 'public');
+            $idea->update([
+                'image_path' => $imagePath,
+            ]);
+        }
 
         Auth::user()->notify(new IdeaPublished($idea));
 
