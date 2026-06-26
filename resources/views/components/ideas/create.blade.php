@@ -4,7 +4,9 @@
    x-data="{
         state: 'pending',
         newLink: '',
-        links: []
+        links: [],
+        newStep: '',
+        steps: []
    }"
    method="POST"
    action="{{ route('idea.store') }}"
@@ -36,6 +38,60 @@
             id="description" name="description" rows="3"
             class="textarea w-full @error('description')textarea-error @enderror">{{ old('description') }}</textarea>
             <x-forms.error name="description" />
+            ////
+            <div>
+                <fieldset class="space-y-3">
+                    <legend class="label">Actionable Steps</legend>
+
+                    <template x-for="(step, index) in steps" :key="step">
+                        <div class="flex gap-x-2 items-center">
+                            <input type="text" name="steps[]" x-model="step" class="input" readonly>
+                            <button
+                            type="button"
+                            @click="steps.splice(index,1)"
+                            aria-label="remove step button"
+                            class="form-muted-icon"
+                        >
+                            <x-icons.close class="w-5" />
+                        </button>
+                        </div>
+                    </template>
+                <div class="flex gap-x-2 items-center">
+                    <input
+                        x-model="newStep"
+                        id="new-step"
+                        data-test="new-step"
+                        placeholder="Baby Steps"
+                        class="input flex-1"
+                        spellcheck="false"
+                    >
+                    <button
+                        type="button"
+                        @click="steps.push(newStep.trim()); newStep=''"
+                        :disabled="newStep.trim().length === 0"
+                        aria-label="Add step button"
+                        class="form-muted-icon"
+                        data-test="submit-new-step-button"
+                    >
+                        <x-icons.append class="w-5" />
+                    </button>
+                </div>
+               {{-- - <pre x-text="JSON.stringify(steps)"></pre> --}}
+                </fieldset>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+            /////
             <div>
                 <fieldset class="space-y-3">
                     <legend class="label">Links</legend>

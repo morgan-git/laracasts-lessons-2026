@@ -17,7 +17,6 @@
     default: true;
     prefersdark: true;
     color-scheme: dark;
-
     --color-background: #0a080f; /* Deep midnight obsidian void */
     --color-foreground: #e2daeb; /* Crisp, clean metallic silver-white typography */
     --color-card: #120e1a;       /* Soft slate-purple card containers */
@@ -112,8 +111,11 @@ a:hover {
     font-weight: 700;
 }
 
-/* Cybernetic Wordmark Shadow Engraving */
 .logo-wordmark {
     filter: drop-shadow(0 0 8px rgba(124, 77, 255, 0.25));
     color: #ffffff;
+}
+
+.text-muted-foreground{
+    color: #36454F;
 }
