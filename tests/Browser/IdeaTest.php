@@ -34,22 +34,30 @@ it('creates a new idea', function () {
         ->fill('title', 'Braised Beef is Brilliant')
         ->click('@idea-status-btn-complete')
         ->fill('description', 'skoopski potato')
+
         ->fill('@new-link', 'http://laracasts.com')
         ->click('@submit-new-link-button')
         ->fill('@new-link', 'http://laravel.com')
         ->click('@submit-new-link-button')
 
-        ->click('@save-idea-button')
+        ->fill('@new-step', 'step1')
+        ->click('@submit-new-step-button')
+        ->fill('@new-step', 'step2')
+        ->click('@submit-new-step-button')
 
+        ->click('@save-idea-button')
         ->assertPathIs('/ideas');
     // ->debug()
     expect(Idea::count())->toBe(2);
-    expect($this->user->ideas()->latest()->first())->toMatchArray([
+    expect($idea = $this->user->ideas()->latest()->first())->toMatchArray([
         'title' => 'Braised Beef is Brilliant',
         'description' => 'skoopski potato',
         'state' => 'complete',
         'links' => ['http://laracasts.com', 'http://laravel.com'],
     ]);
+
+    expect($idea->steps)->toHaveCount(2);
+
 });
 
 it('doesn\'t show an edit form to update an idea thats not the viewing user', function () {

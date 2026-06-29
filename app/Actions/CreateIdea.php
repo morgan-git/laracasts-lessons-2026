@@ -23,7 +23,7 @@ class CreateIdea
             $data['image_path'] = $attributes['image']->store('ideas', 'public');
         }
 
-        DB::transaction(function () use ($data, $notify) {
+        DB::transaction(function () use ($data, $attributes, $notify) {
             $idea = $this->user->ideas()->create($data);
 
             $idea->steps()->createMany(
