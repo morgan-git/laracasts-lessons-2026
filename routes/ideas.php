@@ -13,7 +13,10 @@ Route::middleware('auth')->group(function (): void {
     Route::get('/ideas/{idea}/edit', [IdeaController::class, 'edit'])->name('idea.edit');
     Route::patch('/ideas/{idea}', [IdeaController::class, 'update']);
     Route::post('/ideas', [IdeaController::class, 'store'])->name('idea.store');
-    Route::delete('/ideas/{idea}', [IdeaController::class, 'destroy'])->name('idea.destroy');
+
+    Route::delete('/ideas/{idea}', [IdeaController::class, 'destroy'])
+        ->name('idea.destroy')
+        ->can('delete', 'idea');
 
     Route::patch('/steps/{step}', [StepController::class, 'update'])->name('step.update');
 });

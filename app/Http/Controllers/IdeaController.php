@@ -102,7 +102,7 @@ class IdeaController extends Controller
      */
     public function destroy(Idea $idea)
     {
-        Gate::authorize('update', $idea);
+        Gate::authorize('delete', $idea);
 
         $idea->delete();
 
