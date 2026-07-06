@@ -53,8 +53,8 @@ it('creates a new idea', function () {
        // ->wait(100)
         ->click('@save-idea-button')
 
-        ->assertPathIs('/ideas')
-     ->debug();
+        ->assertPathIs('/ideas');
+     //->debug();
     expect(Idea::count())->toBe(2);
     expect($idea = $this->user->ideas()->latest()->first())->toMatchArray([
         'title' => 'Braised Beef is Brilliant',
