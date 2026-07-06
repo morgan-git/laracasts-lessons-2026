@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Idea;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,9 +18,11 @@ class IdeaFactory extends Factory
      */
     public function definition(): array
     {
-         return [
-            'description' => fake()->sentence(25),
-            'state' => \App\Enums\IdeaState::PENDING, // Sets the default
+        return [
+            'user_id' => User::factory(),
+            'title' => fake()->sentence(),
+            'description' => fake()->paragraph,
+            'links' => [fake()->url()],
         ];
     }
 }

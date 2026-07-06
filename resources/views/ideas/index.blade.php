@@ -1,37 +1,43 @@
 <x-layout>
+    <div>
+        <header class="py-8 md:py-12">
+            <h1 class="text-3xl font-bold tracking-tight">Ideas</h1>
+            <p class="text-sm text-muted-foreground mt-2">Make a plan</p>
+            <button
+                x-data
+                @click="$dispatch('open-modal', 'create-idea')"
+                data-test="create-idea-button"
+                class="border-2 border-neutral-content/10 rounded-lg p-4 mt-10 space-y-3 cursor-pointer h-32 w-full text-left" >
+                <p class="">What's the idea?
+                </p>
+            </button>
+        </header>
+        <div>
+            <a href="/ideas" class="btn {{ !request('state')  ? 'btn-secondary' : 'btn-ghost'}}">All  <span class="text-xs pl-1">({{ $statusCounts['all'] ?? 0 }})</span></a>
 
-   <form action="{{ url('/ideas') }}" method="GET" id="filterForm">
-        <label for="stateFilter" class="sr-only">Filter by State:</label>
-
-        <select class="select select-primary" name="state" id="stateFilter" onchange="this.form.submit();">
-            <!-- 1. Explicitly set value="" so it submits an empty parameter -->
-            <option value="" @selected(!request('state'))>All States</option>
-
-            @foreach ($states as $stateOption)
-                <option value="{{ $stateOption->value }}" @selected(request('state') === $stateOption->value)>
-                    {{ ucfirst(str_replace('-', ' ', $stateOption->value)) }}
-                </option>
+            @foreach (App\Enums\IdeaState::cases() as $status)
+            <a href="/ideas?state={{$status->value}}"
+                class="btn {{ request('state') === $status->value  ? 'btn-secondary' : 'btn-ghost'}}">{{ $status->label() }}
+            <span class="text-xs pl-1">({{ $statusCounts->get($status->value) ?? 0 }})</span>
+            </a>
             @endforeach
-        </select>
-    </form>
-    <div class="mt-6 ">
-
-    <h2 class="font-bold">Your @if ( isset($state)) {{ ucfirst($state->value) }} @endif Ideas</h2>
-        <ul class="mt-6 grid grid-cols-2 gap-x-20 gap-y-4">
-
-            @if (isset($ideas) && $ideas->count())
-
-                @foreach($ideas AS $idea)
-                <x-idea-card href="/ideas/{{ $idea->id }}">{{ $idea->description }}</x-idea-card>
-                @endforeach
-
-            @elseif (isset($idea) && $idea->count())
-                <li class="text-sm">{{ $idea->description }}</li>
-            @else  <li class="text-sm">No ideas</li>
-            @endif
-        </ul>
-        <div class="text-sm mt-6">
-             <a class="btn-primary p-2" href="/ideas/create">Create Idea</a>
         </div>
-   </div>
+        <div class="mt-10 text-muted-foreground">
+            <div class=" grid md:grid-cols-2 gap-x-20 gap-y-4">
+
+                @forelse($ideas AS $idea)
+                    <x-ideas.idea-card href="{{ route('idea.show', $idea) }}" :idea="$idea"> </x-ideas.idea-card>
+
+                    @empty
+                        <p>No ideas</p>
+                    @endforelse
+
+            </div>
+        </div>
+
+        <!-- modal -->
+        <x-modal name='create-idea' title="New Idea" >
+          <x-ideas.create/>
+        </x-modal>
+    </div>
 </x-layout>

@@ -1,0 +1,23 @@
+import axios from 'axios';
+import alpine from 'alpinejs';
+window.axios = axios;
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+window.alpine = alpine;
+alpine.start();
+
+
+
+
+
+
+
+
+document.addEventListener('submit', (event) => {
+    const message = event.target.getAttribute('data-confirm');
+    if (message && !confirm(message)) {
+        event.preventDefault();
+    }
+});
+
+

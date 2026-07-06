@@ -1,14 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Global IDE type-hinting wrapper for Pest closures.
  *
- * @mixin \Tests\TestCase
- * @property \App\Models\User $user
- * @property \App\Models\Idea $idea
+ * @mixin TestCase
+ *
+ * @property User $user
+ * @property Idea $idea
  */
 
-
+use App\Models\Idea;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -24,12 +28,12 @@ use Tests\TestCase;
 */
 
 pest()->extend(TestCase::class)
-  ->use(RefreshDatabase::class)
-    ->in('Browser');
+    ->use(RefreshDatabase::class)
+    ->in('Browser', 'Unit');
 
-    pest()->extend(TestCase::class)
- // ->use(RefreshDatabase::class)
-    ->in('Feature');
+// pest()->extend(TestCase::class)
+// ->use(RefreshDatabase::class)
+//  ->in('Feature');
 /*
 |--------------------------------------------------------------------------
 | Expectations
@@ -41,9 +45,7 @@ pest()->extend(TestCase::class)
 |
 */
 
-expect()->extend('toBeOne', function () {
-    return $this->toBe(1);
-});
+expect()->extend('toBeOne', fn () => $this->toBe(1));
 
 /*
 |--------------------------------------------------------------------------
@@ -56,7 +58,7 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+function something(): void
 {
     // ..
 }

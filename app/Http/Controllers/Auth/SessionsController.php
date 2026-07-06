@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
 
 class SessionsController extends Controller
@@ -12,7 +14,7 @@ class SessionsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): void
     {
         //
     }
@@ -36,23 +38,29 @@ class SessionsController extends Controller
             'password' => ['required', 'string', Password::default()],
         ]);
 
-        if ( Auth::attempt($validated) ){
+        if (Auth::attempt($validated)) {
             $request->session()->regenerate();
-            return redirect("/ideas");
+
+            return redirect()->intended('/ideas')->with('success', 'Logged in successfully!');
         }
 
-        return back()->withErrors([
-                'email' => "Invalid credentials",
-        ]);
+        return back()
+            ->withErrors([
+                'email' => 'Invalid credentials',
+            ])
+            ->withInput();
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy()
+    public function destroy(Request $request)
     {
         Auth::logout();
 
-        return redirect("/");
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/');
     }
 }

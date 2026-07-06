@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\Idea;
@@ -45,7 +47,7 @@ class IdeaPolicy
      */
     public function delete(User $user, Idea $idea): bool
     {
-        return false;
+        return $idea->user->is($user);
     }
 
     /**

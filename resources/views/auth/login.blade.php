@@ -1,20 +1,22 @@
 <x-layout>
-    <form method="POST" action="/login">
-        @csrf
-        <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 mx-auto">
-            <legend class="fieldset-legend">Log In</legend>
+    <div class="flex min-h-[50vh] items-center justify-center px-2">
+        <div class="w-full max-w-md">
+            <div class="text-center">
+                <h1 class="text-3xl font-bold tracking-tight">Log in</h1>
+                <p class="text-xs text-muted-foreground mt-1 p-2 ">Welcome Back ;)</p>
+                    <form method="POST" action="/login">
+                        @csrf
+                        <fieldset class="bg-base-200 rounded-box w-xs border-0 p-4 mx-auto text-left">
 
-            <label class="label" for="email">Email</label>
-            <input type="email" class="input" placeholder="Your Email" name="email" required />
-            <x-forms.error name="email" />
+                            <x-forms.field fname="email" ftype="email" label="Email" required/>
+                            <x-forms.field fname="password" ftype="password" label="Password"  required />
 
-            <label class="label">Password</label>
-            <input type="password" class="input" placeholder="Your Password" name="password" required />
-            <x-forms.error name="password" />
+                            <button class="btn btn-neutral mt-4 w-full" data-test="login-button">Log In </button>
+                        </fieldset>
 
-            <button class="btn btn-neutral mt-4">Log In </button>
-        </fieldset>
-
-</form>
+                </form>
+            </div>
+        </div>
+    </div>
 
 </x-layout>

@@ -1,22 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Database\Factories\Idea\Factory;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Notifications\Notifiable;
 use App\Enums\IdeaState;
-
+use Illuminate\Database\Eloquent\Casts\AsArrayObject;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 
 /**
  * @property int $id
  * @property string $description
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property string $state
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Idea newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Idea newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Idea query()
@@ -25,6 +29,7 @@ use App\Enums\IdeaState;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Idea whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Idea whereState($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Idea whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class Idea extends Model
@@ -33,25 +38,41 @@ class Idea extends Model
 
     protected $casts = [
         'state' => IdeaState::class,
+        'links' => AsArrayObject::class,
     ];
 
-     /** @use HasFactory<UserFactory> */
+    // initial attributes set for the model
+    protected $attributes = [
+        'state' => IdeaState::PENDING->value,
+        'links' => '[]',
+    ];
+
+    /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
+
+    public static function getStateCounts(User $user): Collection
+    {
+        $statusCounts = $user->ideas()->selectRaw('state, count(*) as count')->groupBy('state')->pluck('count', 'state');
+        $statusCounts['all'] = $statusCounts->sum();
+
+        /**
+        collect(IdeaState::cases())
+        ->mapWithKeys(fn($state) => [
+             $state->value => $statusCounts->get($state->value, 0),
+        ])
+             ->put('all', Auth::user()->ideas()->count());
+
+         **/
+        return $statusCounts;
+    }
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-     // Generates the ->pending() method
-    public function scopePending(Builder $query): void
+    public function steps(): HasMany
     {
-        $query->where('state', IdeaState::PENDING);
-    }
-
-    // Generates a dynamic ->ofState($state) method
-    public function scopeOfState(Builder $query, IdeaState $state): void
-    {
-        $query->where('state', $state);
+        return $this->hasMany(Step::class);
     }
 }

@@ -1,6 +1,12 @@
 @import 'tailwindcss';
+@import './components/btn.css' layer(components);
+@import './components/form.css' layer(components);
+
+
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
 
 @plugin "daisyui" {
     themes: darkwave
@@ -11,23 +17,26 @@
     default: true;
     prefersdark: true;
     color-scheme: dark;
-
+    --color-background: #0a080f; /* Deep midnight obsidian void */
+    --color-foreground: #e2daeb; /* Crisp, clean metallic silver-white typography */
+    --color-card: #120e1a;       /* Soft slate-purple card containers */
     /* Background Structure: Slate-Purple Base Layers */
     --color-base-100: #0a080f;        /* Deep midnight obsidian void */
     --color-base-200: #120e1a;        /* Soft slate-purple card containers */
     --color-base-300: #1b1526;        /* Slightly elevated dropdown/input backings */
     --color-base-content: #e2daeb;    /* Crisp, clean metallic silver-white typography */
 
-    /* Brand Identities: Rich Muted Purples & Steels (NO Pink/Aqua) */
+    /* Brand Identities: Rich Muted Purples & Steels */
     --color-primary: #7c4dff;          /* Vibrant electric violet indigo */
     --color-primary-content: #ffffff;
-
+    --color-primary-foreground: #ffffff;
     --color-secondary: #433954;        /* Dark, brooding smoked amethyst */
     --color-secondary-content: #cbd5e1;
 
     --color-accent: #64748b;           /* Clean gunmetal armor casing steel */
     --color-accent-content: #ffffff;
 
+    --color-muted-foreground:#8f859b ;
     /* Utilities */
     --color-neutral: #15101f;
     --color-neutral-content: #c0b3d6;
@@ -48,6 +57,7 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+
 }
 
 /* Atmosphere - Deep, Atmospheric Nebula Gradient & Ambient Grid Texture Overlay */
@@ -81,56 +91,6 @@ body {
         inset 0 1px 1px rgba(255, 255, 255, 0.03) !important; /* Gentle internal gloss highlight */
 }
 
-/* Premium Form Elements & Dropdown Panels */
-.input,
-.textarea,
-.select {
-    background: var(--color-base-300) !important;
-    border: 1px solid rgba(124, 77, 255, 0.18) !important;
-    color: var(--color-base-content) !important;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4) !important;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-}
-
-/* Dynamic Active Input Tracking Frame */
-.input:focus,
-.textarea:focus,
-.select:focus {
-    outline: none !important;
-    border-color: var(--color-primary) !important;
-    box-shadow:
-        0 0 0 1px var(--color-primary),
-        0 0 14px rgba(124, 77, 255, 0.3) !important; /* Electric violet glowing focus aura */
-}
-
-/* Buttons - Polished Core Branding Triggers */
-.btn-primary {
-    background: var(--color-primary) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    color: var(--color-primary-content) !important;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    box-shadow: 0 4px 12px rgba(124, 77, 255, 0.2) !important;
-    transition: all 0.2s ease !important;
-}
-
-.btn-primary:hover {
-    background: #9266ff !important; /* Soft, luminous illumination morph */
-    border-color: #9266ff !important;
-    box-shadow: 0 0 18px rgba(124, 77, 255, 0.45) !important;
-}
-
-/* Secondary Actions / Toggle Controllers */
-.btn-secondary {
-    background: var(--color-secondary) !important;
-    border: 1px solid rgba(124, 77, 255, 0.1) !important;
-    color: var(--color-secondary-content) !important;
-}
-
-.btn-secondary:hover {
-    background: #524766 !important;
-    color: #ffffff !important;
-}
 
 /* Clean Navigation Hyperlinks */
 a {
@@ -151,8 +111,11 @@ a:hover {
     font-weight: 700;
 }
 
-/* Cybernetic Wordmark Shadow Engraving */
 .logo-wordmark {
     filter: drop-shadow(0 0 8px rgba(124, 77, 255, 0.25));
     color: #ffffff;
+}
+
+.text-muted-foreground{
+    color: #36454F;
 }

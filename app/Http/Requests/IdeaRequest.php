@@ -1,9 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
+use App\Enums\IdeaState;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class IdeaRequest extends FormRequest
 {
@@ -12,7 +16,7 @@ class IdeaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true; //for scope of this demo. no users yet to authorize
+        return true; // for scope of this demo. no users yet to authorize TODO implement user authorization
     }
 
     /**
@@ -23,13 +27,22 @@ class IdeaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'description' => ['required',"min:10"],
+            'title' => ['required', 'min:5', 'string'],
+            'description' => ['required', 'min:5', 'string'],
+            'state' => ['required', Rule::enum(IdeaState::class)],
+            'links' => ['nullable', 'array'],
+            'links.*' => ['url', 'max:255'],
+            'steps' => ['nullable', 'array'],
+            'steps.*' => ['string', 'max:255'],
+            'image' => ['nullable', 'image', 'max:5120'],
         ];
     }
+
+    #[\Override]
     public function messages(): array
     {
         return [
-          "description.required" => "Description is required sir",
+            'description.required' => 'Description is required sir',
         ];
     }
 }
