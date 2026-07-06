@@ -8,7 +8,9 @@
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
-
+@plugin "daisyui" {
+    themes: darkwave
+}
 
 @plugin "daisyui/theme" {
     name: "darkwave";

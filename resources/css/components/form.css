@@ -55,11 +55,6 @@ label {
     0 0 14px rgba(124, 77, 255, 0.3) !important; /* Electric violet glowing focus aura */
 }
 
-@media (min-width: var(--breakpoint-md)) {
-    .input {
-        font-size: var(--text-sm);
-    }
-}
 
 .textarea {
     border-radius: var(--radius-md);
@@ -90,11 +85,6 @@ label {
     0 0 14px rgba(124, 77, 255, 0.3) !important; /* Electric violet glowing focus aura */
 }
 
-@media (min-width: var(--breakpoint-md)) {
-    .textarea {
-        font-size: var(--text-sm);
-    }
-}
 
 .label {
     color: var(--color-foreground);
