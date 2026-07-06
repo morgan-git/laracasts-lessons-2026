@@ -16,7 +16,7 @@ class IdeaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true; // for scope of this demo. no users yet to authorize
+        return true; // for scope of this demo. no users yet to authorize TODO implement user authorization
     }
 
     /**
