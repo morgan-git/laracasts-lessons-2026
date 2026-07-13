@@ -2,17 +2,23 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Reddit;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Http;
+use App\Services\RedditService;
 class RedditController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+
+    public function index(RedditService $reddit)
     {
-       return view('reddit.index');
+        $posts = $reddit->subreddit('foodporn');
+
+        dd($posts);
+
+
+
+       //return view('reddit.index');
     }
 
     /**
