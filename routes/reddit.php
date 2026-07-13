@@ -6,4 +6,4 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RedditController;
 
 
- Route::get('/reddit', [RedditController::class, 'index'])->name('reddit.index');
+Route::get('/reddit/{subreddit?}', [RedditController::class, 'index'])->name('reddit.index');

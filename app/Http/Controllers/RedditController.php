@@ -10,15 +10,15 @@ use App\Services\RedditService;
 class RedditController extends Controller
 {
 
-    public function index(RedditService $reddit)
+    public function index(RedditService $reddit, string $subreddit = 'foodporn')
     {
-        $posts = $reddit->subreddit('foodporn');
+        if ( !in_array($subreddit, ['foodporn', 'foodcrime', 'meme', 'dankmemes'])) {
+           $subreddit = 'foodporn';
+        }
 
-        dd($posts);
+        $posts = $reddit->subreddit($subreddit);
 
-
-
-       //return view('reddit.index');
+        return view('reddit.index', compact('posts', 'subreddit'));
     }
 
     /**
