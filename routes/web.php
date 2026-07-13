@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\SessionsController;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/ideas.php';
+require __DIR__.'/reddit.php';
 
 Route::view('/', 'index', [
     'greeting' => "Don't stop letting people not help",
