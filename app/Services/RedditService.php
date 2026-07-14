@@ -1,18 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+
 class RedditService
 {
     protected Client $client;
-    private const CACHE_PREFIX = 'reddit_rss_';
 
-    public function __construct()
+    private const string CACHE_PREFIX = 'reddit_rss_';
+
+    public function __construct(?Client $client = null)
     {
-        $this->client = new Client([
+        $this->client = $client ?? new Client([
             'headers' => [
                 'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
                 'Accept' => 'application/atom+xml',
@@ -22,7 +28,7 @@ class RedditService
 
     public function subreddit(string $subreddit): Collection
     {
-        $cacheKey = "reddit_rss_" . strtolower($subreddit);
+        $cacheKey = self::CACHE_PREFIX.strtolower($subreddit);
 
         $data = Cache::remember($cacheKey, now()->addMinutes(15), function () use ($subreddit) {
             try {
@@ -36,10 +42,13 @@ class RedditService
 
                 return $this->parseFeed($xml)->toArray();
 
-            } catch (\GuzzleHttp\Exception\ClientException $e) {
+            } catch (ClientException $e) {
                 if ($e->getResponse()->getStatusCode() === 429) {
                     return ['throttled' => true];
                 }
+
+                return [];
+            } catch (ServerException) {
                 return [];
             }
         });
@@ -50,7 +59,7 @@ class RedditService
     protected function parseFeed(\SimpleXMLElement $xml): Collection
     {
         // Safe check in case the XML parsing failed completely
-        if (!$xml || !isset($xml->entry)) {
+        if (! $xml || (! property_exists($xml, 'entry') || $xml->entry === null)) {
             return collect();
         }
 
@@ -68,15 +77,15 @@ class RedditService
             ]);
 
     }
+
     protected function extractImage(string $html): ?string
     {
-        if (empty($html)) return null;
+        if ($html === '' || $html === '0') {
+            return null;
+        }
 
         preg_match('/<img[^>]+src=["\']([^"\']+)["\']/', $html, $matches);
 
         return isset($matches[1]) ? html_entity_decode($matches[1], ENT_QUOTES) : null;
     }
-
-
-
 }

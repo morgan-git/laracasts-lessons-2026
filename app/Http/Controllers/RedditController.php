@@ -1,30 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
-
 use App\Models\Reddit;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 use App\Services\RedditService;
+use Illuminate\Http\Request;
+
 class RedditController extends Controller
 {
-
     public function index(RedditService $reddit, string $subreddit = 'foodporn')
     {
-        if ( !in_array($subreddit, ['foodporn', 'foodcrime', 'meme', 'dankmemes'])) {
-           $subreddit = 'foodporn';
+        if (! in_array($subreddit, ['foodporn', 'foodcrime', 'meme', 'dankmemes'])) {
+            $subreddit = 'foodporn';
         }
 
         $posts = $reddit->subreddit($subreddit);
 
-        return view('reddit.index', compact('posts', 'subreddit'));
+        return view('reddit.index', ['posts' => $posts, 'subreddit' => $subreddit]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): void
     {
         //
     }
@@ -32,7 +32,7 @@ class RedditController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): void
     {
         //
     }
@@ -40,7 +40,7 @@ class RedditController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Reddit $reddit)
+    public function show(Reddit $reddit): void
     {
         //
     }
@@ -48,7 +48,7 @@ class RedditController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Reddit $reddit)
+    public function edit(Reddit $reddit): void
     {
         //
     }
@@ -56,7 +56,7 @@ class RedditController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Reddit $reddit)
+    public function update(Request $request, Reddit $reddit): void
     {
         //
     }
@@ -64,7 +64,7 @@ class RedditController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Reddit $reddit)
+    public function destroy(Reddit $reddit): void
     {
         //
     }

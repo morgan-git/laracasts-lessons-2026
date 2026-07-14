@@ -2,8 +2,7 @@
 
 declare(strict_types=1);
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RedditController;
-
+use Illuminate\Support\Facades\Route;
 
 Route::get('/reddit/{subreddit?}', [RedditController::class, 'index'])->name('reddit.index');
