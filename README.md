@@ -3,7 +3,7 @@
 
 A collection of Laravel projects, experiments, and reusable components built to explore application architecture, integrations, and modern Laravel development practices.
 
-Rather than creating isolated tutorial projects, this repository serves as an evolving workspace where features are designed to be reusable across multiple applications.
+Rather than isolated tutorial projects, this is a deliberately structured monorepo where each component ( service classes, queue jobs, caching layers, provider abstractions ) is built to be extracted and reused across multiple applications. The Feed Engine, for example, is designed to power both web interfaces and Discord bots from the same normalized data layer.
 
 ## Current Projects
 
