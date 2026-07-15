@@ -1,4 +1,4 @@
-![Run Pest Tests](https://github.com/morgan-git/laracasts-lessons-2026/actions/workflows/tests.yml/badge.svg)
+![Run Pest Tests](https://github.com/morgan-git/laravel-lab/actions/workflows/tests.yml/badge.svg)
 # Laravel Lab
 
 A collection of Laravel projects, experiments, and reusable components built to explore application architecture, integrations, and modern Laravel development practices.
