@@ -30,7 +30,7 @@ it('shows an edit form to update an idea', function () {
 });
 
 it('creates a new idea', function () {
-    //Storage::fake('ideas');
+    // Storage::fake('ideas');
 
     $file = UploadedFile::fake()->image('avatar.jpg');
     visit('/ideas')
@@ -54,7 +54,7 @@ it('creates a new idea', function () {
         ->click('@save-idea-button')
 
         ->assertPathIs('/ideas');
-     //->debug();
+    // ->debug();
     expect(Idea::count())->toBe(2);
     expect($idea = $this->user->ideas()->latest()->first())->toMatchArray([
         'title' => 'Braised Beef is Brilliant',
@@ -86,6 +86,3 @@ it('doesn\'t show an idea to a user thats not the idea owner', function () {
     visit('/ideas/'.$this->idea->id)
         ->assertSee('404');
 });
-
-
-

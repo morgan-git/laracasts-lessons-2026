@@ -3,13 +3,13 @@
 
 A collection of Laravel projects, experiments, and reusable components built to explore application architecture, integrations, and modern Laravel development practices.
 
-Rather than isolated tutorial projects, this is a deliberately structured monorepo where each component ( service classes, queue jobs, caching layers, provider abstractions ) is built to be extracted and reused across multiple applications. The Feed Engine, for example, is designed to power both web interfaces and Discord bots from the same normalized data layer.
+Rather than isolated tutorial projects, this is a deliberately structured monorepo where each component — service classes, queue jobs, caching layers, provider abstractions — is built to be extracted and reused across multiple applications. The Feed Engine, for example, is designed to power both web interfaces and Discord bots from the same normalized data layer.
 
 ## Current Projects
 
 ### Feed Engine
 
-A content ingestion system that retrieves, caches, normalizes, and stores external content from multiple providers. The long-term goal is to support multiple data sources through a common provider interface and expose that content to web applications, Discord bots, and other consumers.
+A content ingestion system that retrieves, normalizes, and stores external content from multiple providers. The long-term goal is to support multiple data sources through a common provider interface and expose that content to web applications, Discord bots, and other consumers.
 
 Current work includes:
 
@@ -58,5 +58,31 @@ Areas of focus include:
 
 The repository will continue to evolve as new projects are added and existing applications mature.
 
+## Scripts
 
+Utility scripts are located in the `scripts/` folder.
 
+### Setup Git Hooks
+
+Run this once after cloning to enable the pre-commit hook, which formats code and runs tests before every commit:
+
+```bash
+cp scripts/pre-commit .git/hooks/pre-commit
+chmod +x .git/hooks/pre-commit
+```
+
+### process-up.sh
+
+Starts all local development services if they aren't already running — queue worker, Vite, and MailPit:
+
+```bash
+bash scripts/process-up.sh
+```
+
+### cache-clear.sh
+
+Clears the application cache:
+
+```bash
+bash scripts/cache-clear.sh
+```
