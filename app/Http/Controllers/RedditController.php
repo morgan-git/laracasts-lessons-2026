@@ -4,20 +4,37 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Models\FeedPost;
 use App\Models\Reddit;
 use App\Services\RedditService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class RedditController extends Controller
 {
-    public function index(RedditService $reddit, string $subreddit = 'foodporn')
+    public function index(string $subreddit = 'foodporn')
     {
         if (! in_array($subreddit, RedditService::ALLOWED_SUBREDDITS)) {
             $subreddit = 'foodporn';
         }
 
-        $posts = $reddit->fetch($subreddit);
+        $posts = Cache::remember(
+            RedditService::CACHE_PREFIX.$subreddit,
+            now()->addMinutes(30),
+            fn () => FeedPost::whereHas(
+                'source',
+                fn ($q) => $q
+                    ->where('provider', 'reddit')
+                    ->where('handle', $subreddit)
+            )
+                ->orderByDesc('posted_at')
+                ->get()
+                ->toArray()
+        );
 
+        $posts = collect($posts);
+
+        //dd($posts);
         return view('reddit.index', ['posts' => $posts, 'subreddit' => $subreddit]);
     }
 

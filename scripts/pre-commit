@@ -1,0 +1,13 @@
+#!/bin/sh
+
+echo "Formatting..."
+composer format
+
+echo "Running tests..."
+composer test:browser
+if [ $? -ne 0 ]; then
+    echo "Tests failed. Commit aborted."
+    exit 1
+fi
+
+exit 0

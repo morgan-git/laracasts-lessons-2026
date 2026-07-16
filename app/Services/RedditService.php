@@ -4,20 +4,34 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Contracts\FeedProvider;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
-use App\Contracts\FeedProvider;
-
 
 class RedditService implements FeedProvider
 {
     protected Client $client;
 
-    private const string CACHE_PREFIX = 'reddit_rss_';
-    public const array ALLOWED_SUBREDDITS = ['foodporn', 'foodcrime', 'meme', 'dankmemes', 'funnymemes', 'wholesomememes', 'pizzacrime'];
+    public const string CACHE_PREFIX = 'reddit_rss_';
+
+    public const array ALLOWED_SUBREDDITS = ['foodporn', 'foodcrime', 'meme', 'dankmemes', 'funnymemes', 'wholesomememes', 'pizzacrimes'];
+//this should probably validate against active feed sources in the database instead of a hardcoded list, but for now this is fine
+    private const array IGNORED_TITLE_PATTERNS = [
+        '/^\[MOD/i',
+        '/^\[META/i',
+        '/^\[ANNOUNCEMENT/i',
+        '/^NEWS/i',
+    ];
+
+    private const array IGNORED_CONTENT_PATTERNS = [
+        '/submission rules/i',
+        '/please read/i',
+        '/about\/sidebar/i',
+        '/mod team/i',
+    ];
 
     public function __construct(?Client $client = null)
     {
@@ -29,36 +43,28 @@ class RedditService implements FeedProvider
         ]);
     }
 
-    public function fetch(string $subreddit): Collection
+    public function fetch(string $handle): Collection
     {
-        $cacheKey = self::CACHE_PREFIX.strtolower($subreddit);
-
-        $data = Cache::remember($cacheKey, now()->addMinutes(15), function () use ($subreddit) {
-            try {
-                $response = $this->client->get("https://old.reddit.com/r/{$subreddit}/.rss?sort=new");
+        try {
+                $response = $this->client->get("https://old.reddit.com/r/{$handle}/.rss?sort=new");
 
                 if ($response->getStatusCode() !== 200) {
-                    return [];
-                }
-
-                $xml = simplexml_load_string((string) $response->getBody());
-
-                return $this->parseFeed($xml)->toArray();
-
-            } catch (ClientException $e) {
-                if ($e->getResponse()->getStatusCode() === 429) {
-                    return ['throttled' => true];
-                }
-
-                return [];
-            } catch (ServerException) {
-                return [];
+                    return collect();
             }
-        });
 
-        return collect($data);
+            $xml = simplexml_load_string((string) $response->getBody());
+
+            return $this->parseFeed($xml);
+
+        } catch (ClientException $e) {
+            if ($e->getResponse()->getStatusCode() === 429) {
+                return collect(['throttled' => true]);
+            }
+            return collect();
+        } catch (ServerException $e) {
+            return collect();
+        }
     }
-
     protected function parseFeed(\SimpleXMLElement $xml): Collection
     {
         // Safe check in case the XML parsing failed completely
@@ -69,6 +75,7 @@ class RedditService implements FeedProvider
         $entries = iterator_to_array($xml->entry, false);
 
         return collect($entries)
+            ->reject(fn (\SimpleXMLElement $entry) => $this->shouldSkip($entry))
             ->map(fn ($entry) => [
                 'id' => (string) $entry->id,
                 'title' => (string) $entry->title,
@@ -78,7 +85,20 @@ class RedditService implements FeedProvider
                 'content' => (string) $entry->content,
                 'image' => $this->extractImage((string) $entry->content),
             ]);
+    }
 
+    protected function shouldSkip(\SimpleXMLElement $entry): bool
+    {
+        $title = (string) $entry->title;
+        $content = html_entity_decode((string) $entry->content);
+
+        foreach (self::IGNORED_TITLE_PATTERNS as $pattern) {
+            if (preg_match($pattern, $title)) {
+                return true;
+            }
+        }
+
+        return array_any(self::IGNORED_CONTENT_PATTERNS, fn ($pattern) => preg_match($pattern, $content));
     }
 
     protected function extractImage(string $html): ?string

@@ -7,7 +7,7 @@ Artisan::command('inspire', function (): void {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
-//Schedule::command('feeds:sync')->everyFifteenMinutes();
-//php artisan feeds:sync
-# or just reddit
-//php artisan feeds:sync reddit
+// Schedule::command('feeds:sync')->everyFifteenMinutes();
+// php artisan feeds:sync
+// or just reddit
+// php artisan feeds:sync reddit

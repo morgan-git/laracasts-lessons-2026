@@ -14,10 +14,10 @@ class FeedPostFactory extends Factory
     {
         return [
             'feed_source_id' => FeedSource::factory(),
-            'external_id' => 't3_' . $this->faker->unique()->regexify('[a-z0-9]{6}'),
+            'external_id' => 't3_'.$this->faker->unique()->regexify('[a-z0-9]{6}'),
             'title' => $this->faker->sentence(),
             'url' => $this->faker->url(),
-            'author' => '/u/' . $this->faker->userName(),
+            'author' => '/u/'.$this->faker->userName(),
             'image_url' => $this->faker->imageUrl(),
             'content' => $this->faker->paragraphs(2, true),
             'posted_at' => $this->faker->dateTimeBetween('-1 month', 'now'),

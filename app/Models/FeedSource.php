@@ -1,20 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+#[Fillable([
+    'provider',
+    'handle',
+    'display_name',
+    'active',
+    'last_fetched_at',
+])]
 class FeedSource extends Model
 {
-    protected $fillable = [
-        'provider',
-        'handle',
-        'display_name',
-        'active',
-        'last_fetched_at',
-    ];
-
     protected $casts = [
         'active' => 'boolean',
         'last_fetched_at' => 'datetime',
