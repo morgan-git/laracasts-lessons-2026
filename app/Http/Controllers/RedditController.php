@@ -12,7 +12,7 @@ class RedditController extends Controller
 {
     public function index(RedditService $reddit, string $subreddit = 'foodporn')
     {
-        if (! in_array($subreddit, ['foodporn', 'foodcrime', 'meme', 'dankmemes'])) {
+        if (! in_array($subreddit, RedditService::ALLOWED_SUBREDDITS)) {
             $subreddit = 'foodporn';
         }
 

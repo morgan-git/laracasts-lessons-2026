@@ -15,6 +15,7 @@ class RedditService
     protected Client $client;
 
     private const string CACHE_PREFIX = 'reddit_rss_';
+    public const array ALLOWED_SUBREDDITS = ['foodporn', 'foodcrime', 'meme', 'dankmemes', 'funnymemes', 'wholesomememes', 'pizzacrime'];
 
     public function __construct(?Client $client = null)
     {

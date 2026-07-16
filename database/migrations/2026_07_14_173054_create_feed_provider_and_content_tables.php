@@ -25,9 +25,9 @@ return new class extends Migration
             $table->foreignId('feed_source_id')->constrained()->cascadeOnDelete();
             $table->string('external_id');  // t3_1efvf6q from reddit
             $table->string('title');
-            $table->string('url');
+            $table->text('url');
             $table->string('author');
-            $table->string('image_url')->nullable();
+            $table->text('image_url')->nullable();
             $table->longText('content')->nullable();
             $table->timestamp('posted_at')->nullable();
             $table->timestamps();
