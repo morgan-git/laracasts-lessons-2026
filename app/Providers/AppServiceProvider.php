@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Contracts\FeedProvider;
 use App\Models\User;
+use App\Services\RedditService;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
@@ -18,7 +20,14 @@ class AppServiceProvider extends ServiceProvider
     #[\Override]
     public function register(): void
     {
-        //
+        $providers = [
+            'reddit' => RedditService::class,
+            // 'youtube' => YouTubeService::class,
+        ];
+
+        foreach ($providers as $name => $class) {
+            $this->app->bind(FeedProvider::class.':'.$name, $class);
+        }
     }
 
     /**
