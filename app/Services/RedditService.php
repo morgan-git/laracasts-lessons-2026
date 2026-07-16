@@ -9,8 +9,10 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use App\Contracts\FeedProvider;
 
-class RedditService
+
+class RedditService implements FeedProvider
 {
     protected Client $client;
 
@@ -27,7 +29,7 @@ class RedditService
         ]);
     }
 
-    public function subreddit(string $subreddit): Collection
+    public function fetch(string $subreddit): Collection
     {
         $cacheKey = self::CACHE_PREFIX.strtolower($subreddit);
 

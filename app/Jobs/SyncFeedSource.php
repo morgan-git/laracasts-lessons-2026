@@ -2,9 +2,9 @@
 
 namespace App\Jobs;
 
+use App\Contracts\FeedProvider;
 use App\Models\FeedPost;
 use App\Models\FeedSource;
-use App\Services\RedditService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
@@ -19,30 +19,28 @@ class SyncFeedSource implements ShouldQueue
         public readonly FeedSource $source
     ) {}
 
-    public function handle(RedditService $reddit): void
-    {
-        if (! $this->source->active) {
-            return;
-        }
-
-        match ($this->source->provider) {
-            'reddit' => $this->syncReddit($reddit),
-            default  => null,
-        };
-
-        $this->source->update(['last_fetched_at' => now()]);
+   public function handle(): void
+{
+    if (! $this->source->active) {
+        return;
     }
 
-    private function syncReddit(RedditService $reddit): void
-    {
-        $posts = $reddit->subreddit($this->source->handle);
+    $provider = app(FeedProvider::class . ':' . $this->source->provider);
 
-        if ($posts->get('throttled')) {
-            $this->release(300); // retry in 5 minutes if throttled
-            return;
-        }
+    $posts = $provider->fetch($this->source->handle);
 
-        foreach ($posts as $post) {
+    if ($posts->get('throttled')) {
+        $this->release(300);
+        return;
+    }
+
+    $lastFetched = $this->source->last_fetched_at;
+
+    $posts
+        ->when($lastFetched, fn ($collection) => $collection->filter(
+            fn ($post) => \Carbon\Carbon::parse($post['updated'])->isAfter($lastFetched)
+        ))
+        ->each(function ($post) {
             FeedPost::updateOrCreate(
                 [
                     'feed_source_id' => $this->source->id,
@@ -57,6 +55,8 @@ class SyncFeedSource implements ShouldQueue
                     'posted_at' => $post['updated'],
                 ]
             );
-        }
-    }
+        });
+
+    $this->source->update(['last_fetched_at' => now()]);
+}
 }

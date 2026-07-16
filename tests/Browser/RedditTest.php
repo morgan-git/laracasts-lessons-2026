@@ -29,7 +29,7 @@ function makeService(string $fixtureFile): RedditService
 
 it('returns a collection of posts from a subreddit', function () {
     $service = makeService('foodporn.xml');
-    $posts = $service->subreddit('foodporn');
+    $posts = $service->fetch('foodporn');
 
     expect($posts)
         ->toBeInstanceOf(Collection::class)
@@ -38,7 +38,7 @@ it('returns a collection of posts from a subreddit', function () {
 
 it('returns posts with the correct keys', function () {
     $service = makeService('foodporn.xml');
-    $posts = $service->subreddit('foodporn');
+    $posts = $service->fetch('foodporn');
 
     expect($posts->first())->toHaveKeys(['id', 'title', 'url', 'author', 'updated', 'content', 'image']);
 });
@@ -48,8 +48,8 @@ it('returns empty collection when api returns non 200', function () {
     $client = new Client(['handler' => HandlerStack::create($mock)]);
     $service = new RedditService($client);
 
-    expect($service->subreddit('foodporn'))->toBeInstanceOf(Collection::class)
-        ->and($service->subreddit('foodporn')->isEmpty())->toBeTrue();
+    expect($service->fetch('foodporn'))->toBeInstanceOf(Collection::class)
+        ->and($service->fetch('foodporn')->isEmpty())->toBeTrue();
 });
 
 it('handles 429 throttle response gracefully', function () {
@@ -63,7 +63,7 @@ it('handles 429 throttle response gracefully', function () {
     $client = new Client(['handler' => HandlerStack::create($mock)]);
     $service = new RedditService($client);
 
-    $posts = $service->subreddit('foodporn');
+    $posts = $service->fetch('foodporn');
 
     expect($posts->get('throttled'))->toBeTrue();
 });
@@ -71,8 +71,8 @@ it('handles 429 throttle response gracefully', function () {
 it('caches results on second call', function () {
     $service = makeService('foodporn.xml');
 
-    $first = $service->subreddit('foodporn');
-    $second = $service->subreddit('foodporn');
+    $first = $service->fetch('foodporn');
+    $second = $service->fetch('foodporn');
 
     expect($first->toArray())->toEqual($second->toArray());
 });

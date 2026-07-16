@@ -16,7 +16,7 @@ class RedditController extends Controller
             $subreddit = 'foodporn';
         }
 
-        $posts = $reddit->subreddit($subreddit);
+        $posts = $reddit->fetch($subreddit);
 
         return view('reddit.index', ['posts' => $posts, 'subreddit' => $subreddit]);
     }
