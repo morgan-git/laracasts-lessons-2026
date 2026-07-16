@@ -15,11 +15,14 @@ class SyncFeedSource implements ShouldQueue
 {
     use Queueable;
 
-
     public int $tries = 100;
+
     public int $maxExceptions = 3;
+
     public int $backoff = 60;
+
     public $timeout = 300;
+
     public function __construct(
         public readonly FeedSource $source
     ) {}
@@ -62,16 +65,16 @@ class SyncFeedSource implements ShouldQueue
                     ]
                 );
             });
-var_dump($posts);
+        var_dump($posts);
         if ($posts->isNotEmpty()) {
             $this->source->update([
                 'last_fetched_at' => now(),
             ]);
         }
-/**Log::info('Feed sync complete', [
-    'provider' => $this->source->provider,
-    'handle' => $this->source->handle,
-    'count' => $posts->count(),
-]);**/
+        /**Log::info('Feed sync complete', [
+            'provider' => $this->source->provider,
+            'handle' => $this->source->handle,
+            'count' => $posts->count(),
+        ]);**/
     }
 }

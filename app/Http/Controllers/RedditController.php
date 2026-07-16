@@ -34,7 +34,7 @@ class RedditController extends Controller
 
         $posts = collect($posts);
 
-        //dd($posts);
+        // dd($posts);
         return view('reddit.index', ['posts' => $posts, 'subreddit' => $subreddit]);
     }
 

@@ -9,7 +9,6 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cache;
 
 class RedditService implements FeedProvider
 {
@@ -18,7 +17,8 @@ class RedditService implements FeedProvider
     public const string CACHE_PREFIX = 'reddit_rss_';
 
     public const array ALLOWED_SUBREDDITS = ['foodporn', 'foodcrime', 'meme', 'dankmemes', 'funnymemes', 'wholesomememes', 'pizzacrimes'];
-//this should probably validate against active feed sources in the database instead of a hardcoded list, but for now this is fine
+
+    // this should probably validate against active feed sources in the database instead of a hardcoded list, but for now this is fine
     private const array IGNORED_TITLE_PATTERNS = [
         '/^\[MOD/i',
         '/^\[META/i',
@@ -46,10 +46,10 @@ class RedditService implements FeedProvider
     public function fetch(string $handle): Collection
     {
         try {
-                $response = $this->client->get("https://old.reddit.com/r/{$handle}/.rss?sort=new");
+            $response = $this->client->get("https://old.reddit.com/r/{$handle}/.rss?sort=new");
 
-                if ($response->getStatusCode() !== 200) {
-                    return collect();
+            if ($response->getStatusCode() !== 200) {
+                return collect();
             }
 
             $xml = simplexml_load_string((string) $response->getBody());
@@ -60,11 +60,13 @@ class RedditService implements FeedProvider
             if ($e->getResponse()->getStatusCode() === 429) {
                 return collect(['throttled' => true]);
             }
+
             return collect();
-        } catch (ServerException $e) {
+        } catch (ServerException) {
             return collect();
         }
     }
+
     protected function parseFeed(\SimpleXMLElement $xml): Collection
     {
         // Safe check in case the XML parsing failed completely
